@@ -90,14 +90,14 @@ public abstract class NdArrayTestBase<T> {
   @Test
   public void iterateValues() {
     NdArray<T> matrix3d = allocate(Shape.make(5, 4, 5));
-    matrix3d.values().forEachRemaining(v -> assertEquals(zeroOrNull(), v));
+    matrix3d.values().forEach(v -> assertEquals(zeroOrNull(), v));
 
     long val = 0L;
-    for (ValueIterator<T> iter = matrix3d.values(); iter.hasNext();) {
+    for (ValueIterator<T> iter = matrix3d.values().iterator(); iter.hasNext();) {
       iter.next(valueOf(val++));
     }
     val = 0L;
-    for (ValueIterator<T> iter = matrix3d.values(); iter.hasNext();) {
+    for (ValueIterator<T> iter = matrix3d.values().iterator(); iter.hasNext();) {
       assertEquals(valueOf(val++), iter.next());
     }
     assertEquals(valueOf(0L), matrix3d.get(0, 0, 0));
@@ -113,20 +113,20 @@ public abstract class NdArrayTestBase<T> {
     NdArray<T> matrix3d = allocate(Shape.make(5, 4, 5));
 
     long val = 0;
-    for (NdArray<T> matrix: matrix3d.elements()) {
+    for (NdArray<T> matrix: matrix3d.topElements()) {
       assertEquals(2L, matrix.shape().numDimensions());
       assertEquals(4L, matrix.shape().numElements(0));
       assertEquals(5L, matrix.shape().numElements(1));
 
-      for (NdArray<T> vector: matrix.elements()) {
+      for (NdArray<T> vector: matrix.topElements()) {
         assertEquals(1L, vector.shape().numDimensions()) ;
         assertEquals(5L, vector.shape().numElements(0));
 
-        for (NdArray<T> scalar: vector.elements()) {
+        for (NdArray<T> scalar: vector.topElements()) {
           assertEquals(0L, scalar.shape().numDimensions()) ;
           scalar.set(valueOf(val++));
           try {
-            scalar.elements().iterator();
+            scalar.topElements().iterator();
             fail();
           } catch (IllegalRankException e) {
             // as expected
@@ -246,7 +246,7 @@ public abstract class NdArrayTestBase<T> {
   public void ndArrayCopies() {
     NdArray<T> matrixA = allocate(Shape.make(3, 5));
     long val = 0L;
-    for (ValueIterator<T> iter = matrixA.values(); iter.hasNext();) {
+    for (ValueIterator<T> iter = matrixA.values().iterator(); iter.hasNext();) {
       iter.next(valueOf(val++));
     }
     NdArray<T> matrixB = allocate(Shape.make(3, 5));

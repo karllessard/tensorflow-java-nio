@@ -14,23 +14,19 @@
  limitations under the License.
  =======================================================================
  */
-package org.tensorflow.nio.nd;
+package org.tensorflow.nio.nd.index;
 
-import org.tensorflow.nio.buffer.DataBuffers;
-import org.tensorflow.nio.nd.index.Index;
+import org.tensorflow.nio.nd.dimension.Dimension;
 
-public interface IntNdArray extends NdArray<Integer> {
-  
-  @Override
-  IntNdArray at(long... indices);
-  
-  @Override
-  IntNdArray slice(Index... indices);
+class Flip implements Index {
 
   @Override
-  Iterable<IntNdArray> topElements();
+  public long numElements(Dimension dim) {
+    return dim.numElements();
+  }
 
-  default void read(int[] dst) { read(DataBuffers.wrap(dst, false)); }
-  
-  default void write(int[] src) { write(DataBuffers.wrap(src, false)); }
+  @Override
+  public long mapPosition(long elementIndex, Dimension dim) {
+    return dim.numElements() - elementIndex - 1;
+  }
 }

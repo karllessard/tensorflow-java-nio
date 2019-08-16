@@ -30,8 +30,8 @@ public class LongDenseNdArray extends AbstractDenseNdArray<Long> implements Long
 
   @Override
   @SuppressWarnings({"unchecked", "raw"})
-  public Iterable<LongNdArray> elements() {
-    return (Iterable)super.elements();
+  public Iterable<LongNdArray> topElements() {
+    return (Iterable)super.topElements();
   }
 
   @Override

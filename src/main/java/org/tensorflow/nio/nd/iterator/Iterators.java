@@ -30,14 +30,14 @@ public final class Iterators {
     return new ElementIterator<>(array);
   }
   
-  public static <T> ValueIterator<T> valuesOf(NdArray<T> array) {
+  public static <T> ValueIterable<T> valuesOf(NdArray<T> array) {
     switch (array.shape().numDimensions()) {
     case 0:
       throw new IllegalRankException("Cannot iterate values of a scalar");
     case 1:
-      return new VectorValueIterator<>(array);
+      return () -> new VectorValueIterator<>(array);
     default:
-      return new NdValueIterator<>(array);
+      return () -> new NdValueIterator<>(array);
     }
   }
 }

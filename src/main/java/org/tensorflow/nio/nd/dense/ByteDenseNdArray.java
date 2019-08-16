@@ -30,8 +30,8 @@ public class ByteDenseNdArray extends AbstractDenseNdArray<Byte> implements Byte
 
   @Override
   @SuppressWarnings({"unchecked", "raw"})
-  public Iterable<ByteNdArray> elements() {
-    return (Iterable)super.elements();
+  public Iterable<ByteNdArray> topElements() {
+    return (Iterable)super.topElements();
   }
 
   @Override

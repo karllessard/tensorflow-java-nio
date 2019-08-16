@@ -33,8 +33,8 @@ import org.tensorflow.nio.buffer.impl.DataBufferWindow;
  *  <li>64-bits indexation is supported, allowing to work with a single buffer with a capacity up to 
  *      approximately 2<sup>63</sup> bytes</li>
  *  <li>Can be used to store object of any types and not only primitives</li>
- *  <li>Use of generics allows to work directly with boxed types as well, which does not require explicit typing
- *      as with the standard JDK buffers.
+ *  <li>Use of generics allows to work directly with boxed types as well, which does not require explicit
+ *      buffer types as with the standard JDK buffers.
  * </ul> 
  * It is important to note that, as opposed to the JDK buffers, there is no guarantee that the buffers are linear, specially
  * when dealing with non-primitive types or large buffers. 

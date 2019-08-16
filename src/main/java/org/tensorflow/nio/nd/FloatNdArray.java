@@ -28,7 +28,7 @@ public interface FloatNdArray extends NdArray<Float> {
   FloatNdArray slice(Index... indices);
 
   @Override
-  Iterable<FloatNdArray> elements();
+  Iterable<FloatNdArray> topElements();
 
   default void read(float[] dst) { read(DataBuffers.wrap(dst, false)); }
   

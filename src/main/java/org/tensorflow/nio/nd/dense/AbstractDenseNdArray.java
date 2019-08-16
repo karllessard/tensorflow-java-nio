@@ -19,7 +19,7 @@ package org.tensorflow.nio.nd.dense;
 import java.util.function.BiFunction;
 
 import org.tensorflow.nio.buffer.DataBuffer;
-import org.tensorflow.nio.nd.AbstractNdArray;
+import org.tensorflow.nio.nd.impl.AbstractNdArray;
 import org.tensorflow.nio.nd.NdArray;
 import org.tensorflow.nio.nd.IllegalRankException;
 import org.tensorflow.nio.nd.Shape;
