@@ -18,7 +18,7 @@ package org.tensorflow.nio.nd.dimension;
 
 abstract class AbstractDimension implements Dimension {
   
-  abstract long positionStep();
+  abstract long stride();
 
   /**
    * Dimensions are known to be equal if they have the same number of elements

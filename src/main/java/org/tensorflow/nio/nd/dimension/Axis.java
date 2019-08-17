@@ -18,9 +18,9 @@ package org.tensorflow.nio.nd.dimension;
 
 final class Axis extends AbstractDimension {
   
-  Axis(long numElements, long positionStep) {
+  Axis(long numElements, long stride) {
     this.numElements = numElements;
-    this.positionStep = positionStep;
+    this.stride = stride;
   }
   
   @Override
@@ -33,7 +33,7 @@ final class Axis extends AbstractDimension {
     if (elementIndex >= numElements) {
       throw new IndexOutOfBoundsException();
     }
-    return positionStep * elementIndex;
+    return stride * elementIndex;
   }
 
   @Override
@@ -42,8 +42,8 @@ final class Axis extends AbstractDimension {
   }
 
   @Override
-  long positionStep() {
-    return positionStep;
+  long stride() {
+    return stride;
   }
   
   @Override
@@ -52,5 +52,5 @@ final class Axis extends AbstractDimension {
   }
 
   private final long numElements;
-  private final long positionStep;
+  private final long stride;
 }

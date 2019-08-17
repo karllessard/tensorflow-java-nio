@@ -20,7 +20,7 @@ final class Coordinate extends AbstractDimension {
   
   Coordinate(long index, AbstractDimension targetDimension) {
     this.index = index;
-    this.positionStep = targetDimension.positionStep();
+    this.stride = targetDimension.stride();
   }
   
   @Override
@@ -35,7 +35,7 @@ final class Coordinate extends AbstractDimension {
 
   @Override
   public long position() {
-    return index * positionStep;
+    return index * stride;
   }
 
   @Override
@@ -44,8 +44,8 @@ final class Coordinate extends AbstractDimension {
   }
 
   @Override
-  long positionStep() {
-    return positionStep;
+  long stride() {
+    return stride;
   }
 
   @Override
@@ -54,5 +54,5 @@ final class Coordinate extends AbstractDimension {
   }
   
   private final long index;
-  private final long positionStep;
+  private final long stride;
 }

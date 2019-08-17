@@ -45,8 +45,8 @@ final class IndexedDimension extends AbstractDimension {
   }
 
   @Override
-  long positionStep() {
-    return dimension.positionStep();
+  long stride() {
+    return dimension.stride();
   }
 
   @Override
