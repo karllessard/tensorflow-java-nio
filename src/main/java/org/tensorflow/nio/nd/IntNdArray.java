@@ -28,7 +28,7 @@ public interface IntNdArray extends NdArray<Integer> {
   IntNdArray slice(Index... indices);
 
   @Override
-  Iterable<IntNdArray> topElements();
+  Iterable<IntNdArray> childElements();
 
   default void read(int[] dst) { read(DataBuffers.wrap(dst, false)); }
   

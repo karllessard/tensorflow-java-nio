@@ -30,8 +30,8 @@ public class IntDenseNdArray extends AbstractDenseNdArray<Integer> implements In
 
   @Override
   @SuppressWarnings({"unchecked", "raw"})
-  public Iterable<IntNdArray> topElements() {
-    return (Iterable)super.topElements();
+  public Iterable<IntNdArray> childElements() {
+    return (Iterable)super.childElements();
   }
 
   @Override

@@ -113,20 +113,20 @@ public abstract class NdArrayTestBase<T> {
     NdArray<T> matrix3d = allocate(Shape.make(5, 4, 5));
 
     long val = 0;
-    for (NdArray<T> matrix: matrix3d.topElements()) {
+    for (NdArray<T> matrix: matrix3d.childElements()) {
       assertEquals(2L, matrix.shape().numDimensions());
       assertEquals(4L, matrix.shape().numElements(0));
       assertEquals(5L, matrix.shape().numElements(1));
 
-      for (NdArray<T> vector: matrix.topElements()) {
+      for (NdArray<T> vector: matrix.childElements()) {
         assertEquals(1L, vector.shape().numDimensions()) ;
         assertEquals(5L, vector.shape().numElements(0));
 
-        for (NdArray<T> scalar: vector.topElements()) {
+        for (NdArray<T> scalar: vector.childElements()) {
           assertEquals(0L, scalar.shape().numDimensions()) ;
           scalar.set(valueOf(val++));
           try {
-            scalar.topElements().iterator();
+            scalar.childElements().iterator();
             fail();
           } catch (IllegalRankException e) {
             // as expected

@@ -61,7 +61,7 @@ class BulkDataTransfer<T> {
     if (dimensionIdx == bulkCopyDimensionIdx) {
       bulkCopy.accept(element.buffer().withLimit(bulkCopySize));
     } else {
-      element.topElements().forEach(e -> execute(bulkCopy, (AbstractDenseNdArray<T>)e, dimensionIdx + 1));
+      element.childElements().forEach(e -> execute(bulkCopy, (AbstractDenseNdArray<T>)e, dimensionIdx + 1));
     }
   }
 }

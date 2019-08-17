@@ -30,8 +30,8 @@ public class FloatDenseNdArray extends AbstractDenseNdArray<Float> implements Fl
 
   @Override
   @SuppressWarnings({"unchecked", "raw"})
-  public Iterable<FloatNdArray> topElements() {
-    return (Iterable)super.topElements();
+  public Iterable<FloatNdArray> childElements() {
+    return (Iterable)super.childElements();
   }
 
   @Override

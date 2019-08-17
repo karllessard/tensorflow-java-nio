@@ -74,7 +74,7 @@ public interface NdArray<T> {
    * @return an iteration of N-dimensional arrays
    * @throws IllegalRankException if this array is a scalar (rank 0)
    */
-  Iterable<? extends NdArray<T>> topElements();
+  Iterable<? extends NdArray<T>> childElements();
 
   /**
    * Returns an iteration of all values of this N-dimension array.

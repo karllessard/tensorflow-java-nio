@@ -28,7 +28,7 @@ public interface DoubleNdArray extends NdArray<Double> {
   DoubleNdArray slice(Index... indices);
 
   @Override
-  Iterable<DoubleNdArray> topElements();
+  Iterable<DoubleNdArray> childElements();
 
   default void read(double[] dst) { read(DataBuffers.wrap(dst, false)); }
   

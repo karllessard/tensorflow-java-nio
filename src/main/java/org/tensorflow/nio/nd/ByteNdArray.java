@@ -28,7 +28,7 @@ public interface ByteNdArray extends NdArray<Byte> {
   ByteNdArray slice(Index... indices);
 
   @Override
-  Iterable<ByteNdArray> topElements();
+  Iterable<ByteNdArray> childElements();
 
   default void read(byte[] dst) { read(DataBuffers.wrap(dst, false)); }
   
