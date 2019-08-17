@@ -35,8 +35,17 @@ import org.tensorflow.nio.buffer.large.IntLargeDataBuffer;
 import org.tensorflow.nio.buffer.large.LargeDataBuffer;
 import org.tensorflow.nio.buffer.large.LongLargeDataBuffer;
 
+/**
+ * Helper class for creating `DataBuffer` instances.
+ */
 public final class DataBuffers {
 
+  /**
+   * Creates a buffer of bytes that can store up to `capacity` values
+   *
+   * @param capacity capacity of the buffer to allocate
+   * @return a new buffer
+   */
   public static ByteDataBuffer ofBytes(long capacity) {
     if (capacity > ByteJdkDataBuffer.MAX_CAPACITY) {
       return ByteLargeDataBuffer.allocate(capacity);
@@ -44,15 +53,34 @@ public final class DataBuffers {
     return ByteJdkDataBuffer.allocate(capacity);
   }
 
+  /**
+   * Wraps an array of bytes into a data buffer.
+   *
+   * @param array array to wrap
+   * @param readOnly true if the buffer created must be read-only
+   * @return a new buffer
+   */
   public static ByteDataBuffer wrap(byte[] array, boolean readOnly) {
     ByteBuffer buf = ByteBuffer.wrap(array);
     return ByteJdkDataBuffer.wrap(readOnly ? buf.asReadOnlyBuffer() : buf);
   }
-  
+
+  /**
+   * Wraps a JDK byte buffer into a data buffer.
+   *
+   * @param buf buffer to wrap
+   * @return a new buffer
+   */
   public static ByteDataBuffer wrap(ByteBuffer buf) {
     return ByteJdkDataBuffer.wrap(buf);
   }
 
+  /**
+   * Creates a buffer of longs that can store up to `capacity` values
+   *
+   * @param capacity capacity of the buffer to allocate
+   * @return a new buffer
+   */
   public static LongDataBuffer ofLongs(long capacity) {
     if (capacity > LongJdkDataBuffer.MAX_CAPACITY) {
       return LongLargeDataBuffer.allocate(capacity);
@@ -60,15 +88,34 @@ public final class DataBuffers {
     return LongJdkDataBuffer.allocate(capacity);
   }
 
+  /**
+   * Wraps an array of longs into a data buffer.
+   *
+   * @param array array to wrap
+   * @param readOnly true if the buffer created must be read-only
+   * @return a new buffer
+   */
   public static LongDataBuffer wrap(long[] array, boolean readOnly) {
     LongBuffer buf = LongBuffer.wrap(array);
     return LongJdkDataBuffer.wrap(readOnly ? buf.asReadOnlyBuffer() : buf);
   }
- 
+
+  /**
+   * Wraps a JDK long buffer into a data buffer.
+   *
+   * @param buf buffer to wrap
+   * @return a new buffer
+   */
   public static LongDataBuffer wrap(LongBuffer buf) {
     return LongJdkDataBuffer.wrap(buf);
   }
 
+  /**
+   * Creates a buffer of integers that can store up to `capacity` values
+   *
+   * @param capacity capacity of the buffer to allocate
+   * @return a new buffer
+   */
   public static IntDataBuffer ofIntegers(long capacity) {
     if (capacity > IntJdkDataBuffer.MAX_CAPACITY) {
       return IntLargeDataBuffer.allocate(capacity);
@@ -76,15 +123,34 @@ public final class DataBuffers {
     return IntJdkDataBuffer.allocate(capacity);
   }
 
+  /**
+   * Wraps an array of integers into a data buffer.
+   *
+   * @param array array to wrap
+   * @param readOnly true if the buffer created must be read-only
+   * @return a new buffer
+   */
   public static IntDataBuffer wrap(int[] array, boolean readOnly) {
     IntBuffer buf = IntBuffer.wrap(array);
     return IntJdkDataBuffer.wrap(readOnly ? buf.asReadOnlyBuffer() : buf);
   }
- 
+
+  /**
+   * Wraps a JDK integer buffer into a data buffer.
+   *
+   * @param buf buffer to wrap
+   * @return a new buffer
+   */
   public static IntDataBuffer wrap(IntBuffer buf) {
     return IntJdkDataBuffer.wrap(buf);
   }
 
+  /**
+   * Creates a buffer of doubles that can store up to `capacity` values
+   *
+   * @param capacity capacity of the buffer to allocate
+   * @return a new buffer
+   */
   public static DoubleDataBuffer ofDoubles(long capacity) {
     if (capacity > DoubleJdkDataBuffer.MAX_CAPACITY) {
       return DoubleLargeDataBuffer.allocate(capacity);
@@ -92,15 +158,34 @@ public final class DataBuffers {
     return DoubleJdkDataBuffer.allocate(capacity);
   }
 
+  /**
+   * Wraps an array of doubles into a data buffer.
+   *
+   * @param array array to wrap
+   * @param readOnly true if the buffer created must be read-only
+   * @return a new buffer
+   */
   public static DoubleDataBuffer wrap(double[] array, boolean readOnly) {
     DoubleBuffer buf = DoubleBuffer.wrap(array);
     return DoubleJdkDataBuffer.wrap(readOnly ? buf.asReadOnlyBuffer() : buf);
   }
 
+  /**
+   * Wraps a JDK double buffer into a data buffer.
+   *
+   * @param buf buffer to wrap
+   * @return a new buffer
+   */
   public static DoubleDataBuffer wrap(DoubleBuffer buf) {
     return DoubleJdkDataBuffer.wrap(buf);
   }
 
+  /**
+   * Creates a buffer of floats that can store up to `capacity` values
+   *
+   * @param capacity capacity of the buffer to allocate
+   * @return a new buffer
+   */
   public static FloatDataBuffer ofFloats(long capacity) {
     if (capacity > FloatJdkDataBuffer.MAX_CAPACITY) {
       return FloatLargeDataBuffer.allocate(capacity);
@@ -108,15 +193,35 @@ public final class DataBuffers {
     return FloatJdkDataBuffer.allocate(capacity);
   }
 
+  /**
+   * Wraps an array of floats into a data buffer.
+   *
+   * @param array array to wrap
+   * @param readOnly true if the buffer created must be read-only
+   * @return a new buffer
+   */
   public static FloatDataBuffer wrap(float[] array, boolean readOnly) {
     FloatBuffer buf = FloatBuffer.wrap(array);
     return FloatJdkDataBuffer.wrap(readOnly ? buf.asReadOnlyBuffer() : buf);
   }
 
+  /**
+   * Wraps a JDK float buffer into a data buffer.
+   *
+   * @param buf buffer to wrap
+   * @return a new buffer
+   */
   public static FloatDataBuffer wrap(FloatBuffer buf) {
     return FloatJdkDataBuffer.wrap(buf);
   }
 
+  /**
+   * Creates a buffer of objects of type `clazz` that can store up to `capacity` values
+   *
+   * @param clazz the type of object stored in this buffer
+   * @param capacity capacity of the buffer to allocate
+   * @return a new buffer
+   */
   public static <T> DataBuffer<T> of(Class<T> clazz, long capacity) {
     if (capacity > ArrayDataBuffer.MAX_CAPACITY) {
       return LargeDataBuffer.allocate(clazz, capacity);
@@ -124,6 +229,13 @@ public final class DataBuffers {
     return ArrayDataBuffer.allocate(clazz, capacity);
   }
 
+  /**
+   * Wraps an array of objects into a data buffer.
+   *
+   * @param array array to wrap
+   * @param readOnly true if the buffer created must be read-only
+   * @return a new buffer
+   */
   public static <T> DataBuffer<T> wrap(T[] array, boolean readOnly) {
     return ArrayDataBuffer.wrap(array, readOnly);
   }

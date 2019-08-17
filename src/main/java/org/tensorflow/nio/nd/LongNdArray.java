@@ -28,7 +28,7 @@ public interface LongNdArray extends NdArray<Long> {
   LongNdArray slice(Index... indices);
 
   @Override
-  Iterable<LongNdArray> elements();
+  Iterable<LongNdArray> topElements();
 
   default void read(long[] dst) { read(DataBuffers.wrap(dst, false)); }
   

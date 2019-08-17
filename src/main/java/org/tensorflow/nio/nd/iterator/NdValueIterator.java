@@ -38,13 +38,13 @@ class NdValueIterator<T> implements ValueIterator<T> {
   }
   
   NdValueIterator(NdArray<T> array) {
-    elementIterator = array.elements().iterator();
-    currentElementValueIterator = elementIterator.next().values();
+    elementIterator = array.topElements().iterator();
+    currentElementValueIterator = elementIterator.next().values().iterator();
   }
   
   private ValueIterator<T> currentElementValueIterator() {
     if (!currentElementValueIterator.hasNext()) {
-      currentElementValueIterator = elementIterator.next().values();
+      currentElementValueIterator = elementIterator.next().values().iterator();
     }
     return currentElementValueIterator;
   }

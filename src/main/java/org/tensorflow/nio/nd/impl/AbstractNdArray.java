@@ -14,13 +14,16 @@
  limitations under the License.
  =======================================================================
  */
-package org.tensorflow.nio.nd;
+package org.tensorflow.nio.nd.impl;
 
 import java.nio.BufferOverflowException;
 import java.nio.BufferUnderflowException;
 
 import org.tensorflow.nio.buffer.DataBuffer;
+import org.tensorflow.nio.nd.NdArray;
+import org.tensorflow.nio.nd.Shape;
 import org.tensorflow.nio.nd.iterator.Iterators;
+import org.tensorflow.nio.nd.iterator.ValueIterable;
 import org.tensorflow.nio.nd.iterator.ValueIterator;
 
 public abstract class AbstractNdArray<T> implements NdArray<T> {
@@ -36,12 +39,12 @@ public abstract class AbstractNdArray<T> implements NdArray<T> {
   }
 
   @Override
-  public ValueIterator<T> values() {
+  public ValueIterable<T> values() {
     return Iterators.valuesOf(this);
   }
 
   @Override
-  public Iterable<? extends NdArray<T>> elements() {
+  public Iterable<? extends NdArray<T>> topElements() {
     return () -> Iterators.elementsOf(this);
   }
 
@@ -50,7 +53,7 @@ public abstract class AbstractNdArray<T> implements NdArray<T> {
     if (!shape().equals(array.shape())) {
       throw new IllegalArgumentException("Can only copy to arrays of the same shape");
     }
-    for (ValueIterator<T> srcIter = values(), dstIter = array.values(); srcIter.hasNext();) {
+    for (ValueIterator<T> srcIter = values().iterator(), dstIter = array.values().iterator(); srcIter.hasNext();) {
       dstIter.next(srcIter.next());
     }
   }
@@ -60,7 +63,7 @@ public abstract class AbstractNdArray<T> implements NdArray<T> {
     if (!shape().equals(array.shape())) {
       throw new IllegalArgumentException("Can only copy to arrays of the same shape");
     }
-    for (ValueIterator<T> srcIter = array.values(), dstIter = values(); srcIter.hasNext();) {
+    for (ValueIterator<T> srcIter = array.values().iterator(), dstIter = values().iterator(); srcIter.hasNext();) {
       dstIter.next(srcIter.next());
     }
   }
@@ -71,7 +74,7 @@ public abstract class AbstractNdArray<T> implements NdArray<T> {
       throw new BufferUnderflowException();
     }
     long i = 0;
-    for (ValueIterator<T> dstIter = values(); dstIter.hasNext();) {
+    for (ValueIterator<T> dstIter = values().iterator(); dstIter.hasNext();) {
       dstIter.next(buffer.get(i++));
     }
   }
@@ -82,7 +85,7 @@ public abstract class AbstractNdArray<T> implements NdArray<T> {
       throw new BufferOverflowException();
     }
     long i = 0;
-    for (ValueIterator<T> srcIter = values(); srcIter.hasNext();) {
+    for (ValueIterator<T> srcIter = values().iterator(); srcIter.hasNext();) {
       buffer.put(i++, srcIter.next());
     }
   }

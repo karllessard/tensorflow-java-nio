@@ -14,23 +14,9 @@
  limitations under the License.
  =======================================================================
  */
-package org.tensorflow.nio.nd;
+package org.tensorflow.nio.nd.iterator;
 
-import org.tensorflow.nio.buffer.DataBuffers;
-import org.tensorflow.nio.nd.index.Index;
+public interface ValueIterable<T> extends Iterable<T> {
 
-public interface IntNdArray extends NdArray<Integer> {
-  
-  @Override
-  IntNdArray at(long... indices);
-  
-  @Override
-  IntNdArray slice(Index... indices);
-
-  @Override
-  Iterable<IntNdArray> topElements();
-
-  default void read(int[] dst) { read(DataBuffers.wrap(dst, false)); }
-  
-  default void write(int[] src) { write(DataBuffers.wrap(src, false)); }
+    @Override ValueIterator<T> iterator();
 }

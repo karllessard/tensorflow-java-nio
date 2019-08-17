@@ -30,8 +30,8 @@ public class DoubleDenseNdArray extends AbstractDenseNdArray<Double> implements 
 
   @Override
   @SuppressWarnings({"unchecked", "raw"})
-  public Iterable<DoubleNdArray> elements() {
-    return (Iterable)super.elements();
+  public Iterable<DoubleNdArray> topElements() {
+    return (Iterable)super.topElements();
   }
 
   @Override
