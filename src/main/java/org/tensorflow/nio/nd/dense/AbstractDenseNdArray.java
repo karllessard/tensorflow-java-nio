@@ -16,70 +16,25 @@
  */
 package org.tensorflow.nio.nd.dense;
 
-import java.util.function.BiFunction;
-
 import org.tensorflow.nio.buffer.DataBuffer;
-import org.tensorflow.nio.nd.impl.AbstractNdArray;
-import org.tensorflow.nio.nd.NdArray;
 import org.tensorflow.nio.nd.IllegalRankException;
+import org.tensorflow.nio.nd.NdArray;
 import org.tensorflow.nio.nd.Shape;
+import org.tensorflow.nio.nd.impl.AbstractNdArray;
 import org.tensorflow.nio.nd.index.Index;
 
-public abstract class AbstractDenseNdArray<T> extends AbstractNdArray<T> {
+@SuppressWarnings("unchecked")
+public abstract class AbstractDenseNdArray<T, U extends NdArray<T>> extends AbstractNdArray<T, U> {
 
   @Override
-  public T get(long... indices) {
-    return buffer().get(position(indices, true));
-  }
-
-  @Override
-  public void set(T value, long... indices) {
-    buffer().put(position(indices, true), value);
-  }
-
-  @Override
-  public void copyTo(NdArray<T> dst) {
-    // TODO Optimize when array is continuous in memory
-    super.copyTo(dst);
-  }
-
-  @Override
-  public void copyFrom(NdArray<T> src) {
-    // TODO Optimize when array is continuous in memory
-    super.copyFrom(src);
-  }
-
-  @Override
-  public void read(DataBuffer<T> dst) {
-    if (isBulkCopyAvailable()) {
-      BulkDataTransfer.create(this).execute(b -> dst.put(b));
-    } else {
-      super.read(dst);
-    }
-  }
-
-  @Override
-  public void write(DataBuffer<T> src) {
-    if (isBulkCopyAvailable()) {
-      BulkDataTransfer.create(this).execute(b -> b.put(src));
-    } else {
-      super.write(src);
-    }
-  }
-
-  protected AbstractDenseNdArray(Shape shape) {
-    super(shape);
-  }
-
-  protected abstract DataBuffer<T> buffer();
-
-  protected <U extends NdArray<T>> U slice(long[] indices, BiFunction<Long, Shape, U> sliceAllocator) {
+  public U at(long... indices) {
     Shape sliceShape = shape().subshape(indices.length);
     long slicePosition = position(indices, false);
-    return sliceAllocator.apply(slicePosition, sliceShape);
+    return allocateSlice(slicePosition, sliceShape);
   }
-  
-  protected <U extends NdArray<T>> U slice(Index[] indices, BiFunction<Long, Shape, U> sliceAllocator) {
+
+  @Override
+  public U slice(Index... indices) {
     Shape sliceShape = shape().mapTo(indices);
     long slicePosition = 0L;
     int i = 0;
@@ -89,9 +44,60 @@ public abstract class AbstractDenseNdArray<T> extends AbstractNdArray<T> {
     if (i > 0) {
       sliceShape = sliceShape.subshape(i);
     }
-    return sliceAllocator.apply(slicePosition, sliceShape);
+    return allocateSlice(slicePosition, sliceShape);
   }
-  
+
+  @Override
+  public T get(long... indices) {
+    return buffer().get(position(indices, true));
+  }
+
+  @Override
+  public U set(T value, long... indices) {
+    buffer().put(position(indices, true), value);
+    return (U)this;
+  }
+
+  @Override
+  public U copyTo(NdArray<T> dst) {
+    // TODO Optimize when array is continuous in memory
+    return super.copyTo(dst);
+  }
+
+  @Override
+  public U copyFrom(NdArray<T> src) {
+    // TODO Optimize when array is continuous in memory
+    return super.copyFrom(src);
+  }
+
+  @Override
+  public U read(DataBuffer<T> dst) {
+    if (isBulkCopyAvailable()) {
+      BulkDataTransfer.create(this).execute(dst::put);
+    } else {
+      super.read(dst);
+    }
+    return (U)this;
+  }
+
+  @Override
+  public U write(DataBuffer<T> src) {
+    if (isBulkCopyAvailable()) {
+      BulkDataTransfer.create(this).execute(b -> b.put(src));
+    } else {
+      super.write(src);
+    }
+    return (U)this;
+  }
+
+  protected AbstractDenseNdArray(Shape shape) {
+    super(shape);
+  }
+
+  protected abstract DataBuffer<T> buffer();
+
+  protected abstract U allocateSlice(long position, Shape shape);
+
   private long position(long[] indices, boolean scalar) {
     if (indices.length > shape().numDimensions()) {
       throw new IndexOutOfBoundsException();

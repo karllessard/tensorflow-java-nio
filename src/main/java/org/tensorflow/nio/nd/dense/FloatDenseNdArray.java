@@ -19,9 +19,8 @@ package org.tensorflow.nio.nd.dense;
 import org.tensorflow.nio.buffer.FloatDataBuffer;
 import org.tensorflow.nio.nd.FloatNdArray;
 import org.tensorflow.nio.nd.Shape;
-import org.tensorflow.nio.nd.index.Index;
 
-public class FloatDenseNdArray extends AbstractDenseNdArray<Float> implements FloatNdArray {
+public class FloatDenseNdArray extends AbstractDenseNdArray<Float, FloatNdArray> implements FloatNdArray {
 
   public static FloatNdArray wrap(FloatDataBuffer buffer, Shape shape) {
     Validator.denseShape(shape);
@@ -29,33 +28,17 @@ public class FloatDenseNdArray extends AbstractDenseNdArray<Float> implements Fl
   }
 
   @Override
-  @SuppressWarnings({"unchecked", "raw"})
-  public Iterable<FloatNdArray> childElements() {
-    return (Iterable)super.childElements();
-  }
-
-  @Override
-  public FloatNdArray at(long... indices) {
-    return slice(indices, this::allocateSlice);
-  }
-
-  @Override
-  public FloatNdArray slice(Index... indices) {
-    return slice(indices, this::allocateSlice);
-  }
-
-  @Override
   protected FloatDataBuffer buffer() {
     return buffer;
+  }
+
+  protected FloatDenseNdArray allocateSlice(long position, Shape shape) {
+    return new FloatDenseNdArray(buffer.withPosition(position).slice(), shape);
   }
 
   private FloatDenseNdArray(FloatDataBuffer buffer, Shape shape) {
     super(shape);
     this.buffer = buffer;
-  }
-
-  private FloatDenseNdArray allocateSlice(long position, Shape shape) {
-    return new FloatDenseNdArray(buffer.withPosition(position).slice(), shape);
   }
 
   private FloatDataBuffer buffer;

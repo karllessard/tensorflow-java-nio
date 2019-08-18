@@ -194,7 +194,7 @@ public interface DataBuffer<T> {
    * @param index the index at which the value will be written
    * @param value the value to be written
    * @return this buffer
-   * @throws IndexOutOfBoundException if index is negative or not smaller than the buffer's limit
+   * @throws IndexOutOfBoundsException if index is negative or not smaller than the buffer's limit
    * @throws ReadOnlyBufferException if this buffer is read-only
    */
   DataBuffer<T> put(long index, T value);

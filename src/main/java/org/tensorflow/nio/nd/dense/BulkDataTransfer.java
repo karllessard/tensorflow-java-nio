@@ -23,7 +23,7 @@ import org.tensorflow.nio.nd.dimension.Dimension;
 
 class BulkDataTransfer<T> {
   
-  static <T> BulkDataTransfer<T> create(AbstractDenseNdArray<T> array) {
+  static <T> BulkDataTransfer<T> create(AbstractDenseNdArray<T, ?> array) {
     int bulkCopyDimensionIdx = -1;
     long bulkCopySize = 1L;
 
@@ -47,21 +47,21 @@ class BulkDataTransfer<T> {
     execute(bulkCopy, array, 0);
   }
 
-  private final AbstractDenseNdArray<T> array;  // The array we want to copy in bulk
+  private final AbstractDenseNdArray<T, ?> array;  // The array we want to copy in bulk
   private final int bulkCopyDimensionIdx;  // The first dimension of this array that can be copied in bulk
   private final long bulkCopySize;  // The number of values that can be copied in a single bulk copy
 
-  private BulkDataTransfer(AbstractDenseNdArray<T> array, int bulkCopyDimensionIdx, long bulkCopySize) {
+  private BulkDataTransfer(AbstractDenseNdArray<T, ?> array, int bulkCopyDimensionIdx, long bulkCopySize) {
     this.array = array;
     this.bulkCopyDimensionIdx = bulkCopyDimensionIdx;
     this.bulkCopySize = bulkCopySize;
   }
 
-  private void execute(Consumer<DataBuffer<T>> bulkCopy, AbstractDenseNdArray<T> element, int dimensionIdx) {
+  private void execute(Consumer<DataBuffer<T>> bulkCopy, AbstractDenseNdArray<T, ?> element, int dimensionIdx) {
     if (dimensionIdx == bulkCopyDimensionIdx) {
       bulkCopy.accept(element.buffer().withLimit(bulkCopySize));
     } else {
-      element.childElements().forEach(e -> execute(bulkCopy, (AbstractDenseNdArray<T>)e, dimensionIdx + 1));
+      element.childElements().forEach(e -> execute(bulkCopy, (AbstractDenseNdArray<T, ?>)e, dimensionIdx + 1));
     }
   }
 }

@@ -21,7 +21,7 @@ import org.tensorflow.nio.nd.IntNdArray;
 import org.tensorflow.nio.nd.Shape;
 import org.tensorflow.nio.nd.index.Index;
 
-public class IntDenseNdArray extends AbstractDenseNdArray<Integer> implements IntNdArray {
+public class IntDenseNdArray extends AbstractDenseNdArray<Integer, IntNdArray> implements IntNdArray {
 
   public static IntNdArray wrap(IntDataBuffer buffer, Shape shape) {
     Validator.denseShape(shape);
@@ -29,33 +29,18 @@ public class IntDenseNdArray extends AbstractDenseNdArray<Integer> implements In
   }
 
   @Override
-  @SuppressWarnings({"unchecked", "raw"})
-  public Iterable<IntNdArray> childElements() {
-    return (Iterable)super.childElements();
-  }
-
-  @Override
-  public IntNdArray at(long... indices) {
-    return slice(indices, this::allocateSlice);
-  }
-
-  @Override
-  public IntNdArray slice(Index... indices) {
-    return slice(indices, this::allocateSlice);
-  }
-
-  @Override
   protected IntDataBuffer buffer() {
     return buffer;
+  }
+
+  @Override
+  protected IntDenseNdArray allocateSlice(long position, Shape shape) {
+    return new IntDenseNdArray(buffer.withPosition(position).slice(), shape);
   }
 
   private IntDenseNdArray(IntDataBuffer buffer, Shape shape) {
     super(shape);
     this.buffer = buffer;
-  }
-
-  private IntDenseNdArray allocateSlice(long position, Shape shape) {
-    return new IntDenseNdArray(buffer.withPosition(position).slice(), shape);
   }
 
   private IntDataBuffer buffer;

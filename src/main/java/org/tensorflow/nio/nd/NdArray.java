@@ -35,8 +35,10 @@ import org.tensorflow.nio.nd.iterator.ValueIterator;
  *
  * <p>Example of usage:
  * <pre>{@code
+ *    import static org.tensorflow.nio.StaticApi.*;
+ *
  *    // Creates a 3x2x2 matrix (of rank 3)
- *    FloatNdArray matrix3d = NdArrays.ofFloats(shape(3, 2, 2));
+ *    FloatNdArray matrix3d = ndArrayOfFloats(shape(3, 2, 2));
  *
  *    // Access the second 2x2 matrix (of rank 2)
  *    FloatNdArray matrix = matrix3d.at(1);
@@ -68,10 +70,12 @@ public interface NdArray<T> {
   /**
    * Returns an iteration of the elements on the first dimension of this N-dimensional array.
    *
-   * <p>For example, given a 3x3x2 matrix, the return value can be used to iterates the three 3x2
-   * sub-matrices, which are the same as {@code array.at(0)}, {@code array.at(1)} and
-   * {@code array.at(2)}.
-   *
+   * <p>For example, given a {@code n x m} matrix on the {@code [x, y]} axes, the return object can be used
+   * to iterate all {@code y} vectors in the following order:
+   * <pre>
+   * x<sub>0</sub>, x<sub>1</sub>, ..., x<sub>n-1</sub>
+   * </pre>
+  *
    * @return an iteration of N-dimensional arrays
    * @throws IllegalRankException if this array is a scalar (rank 0)
    */
@@ -124,6 +128,7 @@ public interface NdArray<T> {
    *
    * @param indices coordinates of the element to access, none will return this array
    * @return the element at this index
+   * @throws IndexOutOfBoundsException if some indices are outside the limits of their respective dimension
    */
   NdArray<T> at(long... indices);
 
@@ -140,7 +145,7 @@ public interface NdArray<T> {
    *
    * <p>Example of usage:
    * <pre>{@code
-   *    import static org.tensorflow.nio.StaticImports.*;
+   *    import static org.tensorflow.nio.StaticApi.*;
    *
    *    NdArray<Float> matrix3d = ndArrayOfFloats(shape(3, 2, 4));  // with [x, y, z] axes
    *
@@ -162,18 +167,103 @@ public interface NdArray<T> {
    *
    * @param indices index selectors per dimensions, starting from dimension 0 of this array.
    * @return the element resulting of the index selection
+   * @throws IndexOutOfBoundsException if some indices are outside the limits of their respective dimension
    */
   NdArray<T> slice(Index... indices);
 
+  /**
+   * Returns the value of the scalar found at the given coordinates.
+   *
+   * <p>To access the scalar element, the number of indices provided must be equal to the number
+   * of dimensions of this array (i.e. its rank). For example:
+   * <pre>{@code
+   *  NdArray<Float> matrix = ndArrayOfFloat(shape(2, 2));  // matrix rank = 2
+   *  matrix.get(0, 1);  // succeeds, returns 0.0f
+   *  matrix.get(0);  // throws IllegalRankException
+   *
+   *  NdArray<Float> scalar = matrix.at(0, 1);  // scalar rank = 0
+   *  scalar.get();  // succeeds, returns 0.0f
+   * }</pre>
+   *
+   * @param indices coordinates of the scalar to resolve
+   * @return value of that scalar
+   * @throws IndexOutOfBoundsException if some indices are outside the limits of their respective dimension
+   * @throws IllegalRankException if number of indices is not sufficient to access a scalar element
+   */
   T get(long... indices);
 
-  void set(T value, long... indices);
+  /**
+   * Assigns the value of the scalar found at the given coordinates.
+   *
+   * <p>To access the scalar element, the number of indices provided must be equal to the number
+   * of dimensions of this array (i.e. its rank). For example:
+   * <pre>{@code
+   *  NdArray<Float> matrix = ndArrayOfFloat(shape(2, 2));  // matrix rank = 2
+   *  matrix.set(10.0f, 0, 1);  // succeeds
+   *  matrix.set(10.0f, 0);  // throws IllegalRankException
+   *
+   *  NdArray<Float> scalar = matrix.at(0, 1);  // scalar rank = 0
+   *  scalar.set(10.0f);  // succeeds
+   * }</pre>
+   *
+   * @param indices coordinates of the scalar to assign
+   * @return this array
+   * @throws IndexOutOfBoundsException if some indices are outside the limits of their respective dimension
+   * @throws IllegalRankException if number of indices is not sufficient to access a scalar element
+   */
+  NdArray<T> set(T value, long... indices);
 
-  void copyTo(NdArray<T> dst);
+  /**
+   * Copy the content of this array to the destination array.
+   *
+   * <p>The shape of the destination array must be equal to the shape of this array, or an exception is
+   * thrown. After the copy, the content of both arrays can be modified independently, without affecting
+   * each other.
+   *
+   * @param dst array to receive a copy of the content of this array
+   * @return this array
+   * @throws IllegalArgumentException if the shape of {@code dst} is not equal to the shape of this array
+   */
+  NdArray<T> copyTo(NdArray<T> dst);
 
-  void copyFrom(NdArray<T> src);
+  /**
+   * Copy the content of the source array to this array.
+   *
+   * <p>The shape of the source array must be equal to the shape of this array, or an exception is
+   * thrown. After the copy, the content of both arrays can be modified independently, without affecting
+   * each other.
+   *
+   * @param src array from which content is copied to this array
+   * @return this array
+   * @throws IllegalArgumentException if the shape of {@code src} is not equal to the shape of this array
+   */
+  NdArray<T> copyFrom(NdArray<T> src);
 
-  void read(DataBuffer<T> dst);
+  /**
+   * Read the content of this array into the provided buffer.
+   *
+   * <p>The remaining space of the buffer must be equal or greater to the {@link #size()} of this array,
+   * or an exception is thrown. After the copy, content of the buffer and of the array can be modified
+   * independently, without affecting each other.
+   *
+   * @param dst the destination buffer
+   * @return this array
+   * @throws java.nio.BufferOverflowException if buffer cannot hold the content of this array
+   * @see DataBuffer#remaining()
+   */
+  NdArray<T> read(DataBuffer<T> dst);
 
-  void write(DataBuffer<T> src);
+  /**
+   * Write the content of this array from the provided buffer.
+   *
+   * <p>The remaining data of the buffer must be equal or greater to the {@link #size()} of this array,
+   * or an exception is thrown. After the copy, content of the buffer and of the array can be modified
+   * independently, without affecting each other.
+   *
+   * @param src the source buffer
+   * @return this array
+   * @throws java.nio.BufferUnderflowException if the buffer has not enough remaining data to write into this array
+   * @see DataBuffer#remaining()
+   */
+  NdArray<T> write(DataBuffer<T> src);
 }

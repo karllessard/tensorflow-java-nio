@@ -18,7 +18,7 @@ package org.tensorflow.nio.nd;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.tensorflow.nio.StaticImports.*;
+import static org.tensorflow.nio.StaticApi.*;
 
 import org.junit.Test;
 import org.tensorflow.nio.buffer.DataBuffer;

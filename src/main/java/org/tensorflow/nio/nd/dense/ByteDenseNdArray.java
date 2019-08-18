@@ -21,7 +21,7 @@ import org.tensorflow.nio.nd.ByteNdArray;
 import org.tensorflow.nio.nd.Shape;
 import org.tensorflow.nio.nd.index.Index;
 
-public class ByteDenseNdArray extends AbstractDenseNdArray<Byte> implements ByteNdArray {
+public class ByteDenseNdArray extends AbstractDenseNdArray<Byte, ByteNdArray> implements ByteNdArray {
 
   public static ByteNdArray wrap(ByteDataBuffer buffer, Shape shape) {
     Validator.denseShape(shape);
@@ -29,33 +29,18 @@ public class ByteDenseNdArray extends AbstractDenseNdArray<Byte> implements Byte
   }
 
   @Override
-  @SuppressWarnings({"unchecked", "raw"})
-  public Iterable<ByteNdArray> childElements() {
-    return (Iterable)super.childElements();
-  }
-
-  @Override
-  public ByteNdArray at(long... indices) {
-    return slice(indices, this::allocateSlice);
-  }
-
-  @Override
-  public ByteNdArray slice(Index... indices) {
-    return slice(indices, this::allocateSlice);
-  }
-
-  @Override
   protected ByteDataBuffer buffer() {
     return buffer;
+  }
+
+  @Override
+  protected ByteDenseNdArray allocateSlice(long position, Shape shape) {
+    return new ByteDenseNdArray(buffer.withPosition(position).slice(), shape);
   }
 
   private ByteDenseNdArray(ByteDataBuffer buffer, Shape shape) {
     super(shape);
     this.buffer = buffer;
-  }
-
-  private ByteDenseNdArray allocateSlice(long position, Shape shape) {
-    return new ByteDenseNdArray(buffer.withPosition(position).slice(), shape);
   }
 
   private ByteDataBuffer buffer;

@@ -16,6 +16,7 @@
  */
 package org.tensorflow.nio.nd;
 
+import org.tensorflow.nio.buffer.DataBuffer;
 import org.tensorflow.nio.buffer.DataBuffers;
 import org.tensorflow.nio.nd.index.Index;
 
@@ -29,6 +30,21 @@ public interface FloatNdArray extends NdArray<Float> {
 
   @Override
   Iterable<FloatNdArray> childElements();
+
+  @Override
+  FloatNdArray set(Float value, long... indices);
+
+  @Override
+  FloatNdArray copyTo(NdArray<Float> dst);
+
+  @Override
+  FloatNdArray copyFrom(NdArray<Float> src);
+
+  @Override
+  FloatNdArray read(DataBuffer<Float> dst);
+
+  @Override
+  FloatNdArray write(DataBuffer<Float> src);
 
   default void read(float[] dst) { read(DataBuffers.wrap(dst, false)); }
   

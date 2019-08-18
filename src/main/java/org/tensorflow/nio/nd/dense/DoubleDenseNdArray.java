@@ -21,7 +21,7 @@ import org.tensorflow.nio.nd.DoubleNdArray;
 import org.tensorflow.nio.nd.Shape;
 import org.tensorflow.nio.nd.index.Index;
 
-public class DoubleDenseNdArray extends AbstractDenseNdArray<Double> implements DoubleNdArray {
+public class DoubleDenseNdArray extends AbstractDenseNdArray<Double, DoubleNdArray> implements DoubleNdArray {
 
   public static DoubleNdArray wrap(DoubleDataBuffer buffer, Shape shape) {
     Validator.denseShape(shape);
@@ -29,33 +29,18 @@ public class DoubleDenseNdArray extends AbstractDenseNdArray<Double> implements 
   }
 
   @Override
-  @SuppressWarnings({"unchecked", "raw"})
-  public Iterable<DoubleNdArray> childElements() {
-    return (Iterable)super.childElements();
-  }
-
-  @Override
-  public DoubleNdArray at(long... indices) {
-    return slice(indices, this::allocateSlice);
-  }
-
-  @Override
-  public DoubleNdArray slice(Index... indices) {
-    return slice(indices, this::allocateSlice);
-  }
-
-  @Override
   protected DoubleDataBuffer buffer() {
     return buffer;
+  }
+
+  @Override
+  protected DoubleDenseNdArray allocateSlice(long position, Shape shape) {
+    return new DoubleDenseNdArray(buffer.withPosition(position).slice(), shape);
   }
 
   private DoubleDenseNdArray(DoubleDataBuffer buffer, Shape shape) {
     super(shape);
     this.buffer = buffer;
-  }
-
-  private DoubleDenseNdArray allocateSlice(long position, Shape shape) {
-    return new DoubleDenseNdArray(buffer.withPosition(position).slice(), shape);
   }
 
   private DoubleDataBuffer buffer;

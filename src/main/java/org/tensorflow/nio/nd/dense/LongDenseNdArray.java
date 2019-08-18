@@ -21,7 +21,7 @@ import org.tensorflow.nio.nd.LongNdArray;
 import org.tensorflow.nio.nd.Shape;
 import org.tensorflow.nio.nd.index.Index;
 
-public class LongDenseNdArray extends AbstractDenseNdArray<Long> implements LongNdArray {
+public class LongDenseNdArray extends AbstractDenseNdArray<Long, LongNdArray> implements LongNdArray {
 
   public static LongNdArray wrap(LongDataBuffer buffer, Shape shape) {
     Validator.denseShape(shape);
@@ -29,33 +29,18 @@ public class LongDenseNdArray extends AbstractDenseNdArray<Long> implements Long
   }
 
   @Override
-  @SuppressWarnings({"unchecked", "raw"})
-  public Iterable<LongNdArray> childElements() {
-    return (Iterable)super.childElements();
-  }
-
-  @Override
-  public LongNdArray at(long... indices) {
-    return slice(indices, this::allocateSlice);
-  }
-
-  @Override
-  public LongNdArray slice(Index... indices) {
-    return slice(indices, this::allocateSlice);
-  }  
-  
-  @Override
   protected LongDataBuffer buffer() {
     return buffer;
+  }
+
+  @Override
+  protected LongDenseNdArray allocateSlice(long position, Shape shape) {
+    return new LongDenseNdArray(buffer.withPosition(position).slice(), shape);
   }
 
   private LongDenseNdArray(LongDataBuffer buffer, Shape shape) {
     super(shape);
     this.buffer = buffer;
-  }
-
-  private LongDenseNdArray allocateSlice(long position, Shape shape) {
-    return new LongDenseNdArray(buffer.withPosition(position).slice(), shape);
   }
 
   private LongDataBuffer buffer;

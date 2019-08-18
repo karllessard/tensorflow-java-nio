@@ -21,7 +21,7 @@ import org.tensorflow.nio.nd.NdArray;
 import org.tensorflow.nio.nd.Shape;
 import org.tensorflow.nio.nd.index.Index;
 
-public class DenseNdArray<T> extends AbstractDenseNdArray<T> {
+public class DenseNdArray<T> extends AbstractDenseNdArray<T, NdArray<T>> {
 
   public static <T> NdArray<T> wrap(DataBuffer<T> buffer, Shape shape) {
     Validator.denseShape(shape);
@@ -29,27 +29,18 @@ public class DenseNdArray<T> extends AbstractDenseNdArray<T> {
   }
 
   @Override
-  public NdArray<T> at(long... indices) {
-    return slice(indices, this::allocateSlice);
-  }
-
-  @Override
-  public NdArray<T> slice(Index... indices) {
-    return slice(indices, this::allocateSlice);
-  }
-
-  @Override
   protected DataBuffer<T> buffer() {
     return buffer;
+  }
+
+  @Override
+  protected DenseNdArray<T> allocateSlice(long position, Shape shape) {
+    return new DenseNdArray<>(buffer.withPosition(position).slice(), shape);
   }
 
   private DenseNdArray(DataBuffer<T> buffer, Shape shape) {
     super(shape);
     this.buffer = buffer;
-  }
-
-  private DenseNdArray<T> allocateSlice(long position, Shape shape) {
-    return new DenseNdArray<>(buffer.withPosition(position).slice(), shape);
   }
 
   private DataBuffer<T> buffer;

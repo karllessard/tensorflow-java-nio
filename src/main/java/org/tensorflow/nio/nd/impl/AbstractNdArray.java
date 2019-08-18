@@ -26,7 +26,8 @@ import org.tensorflow.nio.nd.iterator.Iterators;
 import org.tensorflow.nio.nd.iterator.ValueIterable;
 import org.tensorflow.nio.nd.iterator.ValueIterator;
 
-public abstract class AbstractNdArray<T> implements NdArray<T> {
+@SuppressWarnings("unchecked")
+public abstract class AbstractNdArray<T, U extends NdArray<T>> implements NdArray<T> {
   
   @Override
   public Shape shape() {
@@ -44,50 +45,54 @@ public abstract class AbstractNdArray<T> implements NdArray<T> {
   }
 
   @Override
-  public Iterable<? extends NdArray<T>> childElements() {
-    return () -> Iterators.elementsOf(this);
+  public Iterable<U> childElements() {
+    return (Iterable)(() -> Iterators.elementsOf(this));
   }
 
   @Override
-  public void copyTo(NdArray<T> array) {
+  public U copyTo(NdArray<T> array) {
     if (!shape().equals(array.shape())) {
       throw new IllegalArgumentException("Can only copy to arrays of the same shape");
     }
     for (ValueIterator<T> srcIter = values().iterator(), dstIter = array.values().iterator(); srcIter.hasNext();) {
       dstIter.next(srcIter.next());
     }
+    return (U)this;
   }
 
   @Override
-  public void copyFrom(NdArray<T> array) {
+  public U copyFrom(NdArray<T> array) {
     if (!shape().equals(array.shape())) {
       throw new IllegalArgumentException("Can only copy to arrays of the same shape");
     }
     for (ValueIterator<T> srcIter = array.values().iterator(), dstIter = values().iterator(); srcIter.hasNext();) {
       dstIter.next(srcIter.next());
     }
+    return (U)this;
   }
 
   @Override
-  public void read(DataBuffer<T> buffer) {
-    if (buffer.capacity() < size()) {
-      throw new BufferUnderflowException();
-    }
-    long i = 0;
-    for (ValueIterator<T> dstIter = values().iterator(); dstIter.hasNext();) {
-      dstIter.next(buffer.get(i++));
-    }
-  }
-
-  @Override
-  public void write(DataBuffer<T> buffer) {
-    if (buffer.capacity() < size()) {
+  public U read(DataBuffer<T> buffer) {
+    if (buffer.remaining() < size()) {
       throw new BufferOverflowException();
     }
     long i = 0;
     for (ValueIterator<T> srcIter = values().iterator(); srcIter.hasNext();) {
       buffer.put(i++, srcIter.next());
     }
+    return (U)this;
+  }
+
+  @Override
+  public U write(DataBuffer<T> buffer) {
+    if (buffer.remaining() < size()) {
+      throw new BufferUnderflowException();
+    }
+    long i = 0;
+    for (ValueIterator<T> dstIter = values().iterator(); dstIter.hasNext();) {
+      dstIter.next(buffer.get(i++));
+    }
+    return (U)this;
   }
 
   protected AbstractNdArray(Shape shape) {

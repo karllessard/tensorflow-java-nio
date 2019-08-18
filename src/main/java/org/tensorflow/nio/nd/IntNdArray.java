@@ -16,6 +16,7 @@
  */
 package org.tensorflow.nio.nd;
 
+import org.tensorflow.nio.buffer.DataBuffer;
 import org.tensorflow.nio.buffer.DataBuffers;
 import org.tensorflow.nio.nd.index.Index;
 
@@ -29,6 +30,21 @@ public interface IntNdArray extends NdArray<Integer> {
 
   @Override
   Iterable<IntNdArray> childElements();
+
+  @Override
+  IntNdArray set(Integer value, long... indices);
+
+  @Override
+  IntNdArray copyTo(NdArray<Integer> dst);
+
+  @Override
+  IntNdArray copyFrom(NdArray<Integer> src);
+
+  @Override
+  IntNdArray read(DataBuffer<Integer> dst);
+
+  @Override
+  IntNdArray write(DataBuffer<Integer> src);
 
   default void read(int[] dst) { read(DataBuffers.wrap(dst, false)); }
   

@@ -18,7 +18,7 @@ import org.tensorflow.nio.nd.Shape;
 import org.tensorflow.nio.nd.index.Index;
 import org.tensorflow.nio.nd.index.Indices;
 
-public class StaticImports {
+public class StaticApi {
 
   public static <T> DataBuffer<T> bufferOf(Class<T> clazz, long capacity) {
     return DataBuffers.of(clazz, capacity);
