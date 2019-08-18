@@ -55,9 +55,16 @@ import org.tensorflow.nio.nd.iterator.ValueIterator;
 public interface NdArray<T> {
 
   /**
-   * Returns the shape of this N-dimensional array
+   * @return the shape of this N-dimensional array
    */
   Shape shape();
+
+  /**
+   * @return the rank of this N-dimensional array
+   */
+  default int rank() {
+    return shape().numDimensions();
+  }
 
   /**
    * Computes and returns the total size of this N-dimensional array, in number of values.

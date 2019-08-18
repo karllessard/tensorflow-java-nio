@@ -41,10 +41,12 @@ public abstract class NdArrayTestBase<T> {
     Shape scalarShape = Shape.scalar();
     NdArray<T> scalar = allocate(scalarShape);
     assertEquals(scalarShape, scalar.shape());
+    assertEquals(0, scalar.rank());
 
     Shape vectorShape = Shape.make(10);
     NdArray<T> vector = allocate(vectorShape);
     assertEquals(vectorShape, vector.shape());
+    assertEquals(1, vector.rank());
   }
 
   @Test
