@@ -18,14 +18,7 @@ package org.tensorflow.nio.nd;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.tensorflow.nio.nd.index.Indices.all;
-import static org.tensorflow.nio.nd.index.Indices.at;
-import static org.tensorflow.nio.nd.index.Indices.even;
-import static org.tensorflow.nio.nd.index.Indices.from;
-import static org.tensorflow.nio.nd.index.Indices.odd;
-import static org.tensorflow.nio.nd.index.Indices.range;
-import static org.tensorflow.nio.nd.index.Indices.seq;
-import static org.tensorflow.nio.nd.index.Indices.to;
+import static org.tensorflow.nio.StaticImports.*;
 
 import org.junit.Test;
 import org.tensorflow.nio.buffer.DataBuffer;

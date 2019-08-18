@@ -36,7 +36,7 @@ import org.tensorflow.nio.nd.iterator.ValueIterator;
  * <p>Example of usage:
  * <pre>{@code
  *    // Creates a 3x2x2 matrix (of rank 3)
- *    FloatNdArray matrix3d = NdArrays.ofFloats(Shape.make(3, 2, 2));
+ *    FloatNdArray matrix3d = NdArrays.ofFloats(shape(3, 2, 2));
  *
  *    // Access the second 2x2 matrix (of rank 2)
  *    FloatNdArray matrix = matrix3d.at(1);
@@ -53,7 +53,7 @@ import org.tensorflow.nio.nd.iterator.ValueIterator;
 public interface NdArray<T> {
 
   /**
-   * @return the shape of this N-dimensional array
+   * Returns the shape of this N-dimensional array
    */
   Shape shape();
 
@@ -66,10 +66,11 @@ public interface NdArray<T> {
   long size();
 
   /**
-   * Returns an iteration of the elements of the first dimension of this N-dimensional array.
+   * Returns an iteration of the elements on the first dimension of this N-dimensional array.
    *
    * <p>For example, given a 3x3x2 matrix, the return value can be used to iterates the three 3x2
-   * matrices,which are {@code array.at(0)}, {@code array.at(1)} and {@code array.at(2)}.
+   * sub-matrices, which are the same as {@code array.at(0)}, {@code array.at(1)} and
+   * {@code array.at(2)}.
    *
    * @return an iteration of N-dimensional arrays
    * @throws IllegalRankException if this array is a scalar (rank 0)
@@ -77,24 +78,35 @@ public interface NdArray<T> {
   Iterable<? extends NdArray<T>> childElements();
 
   /**
-   * Returns an iteration of all values of this N-dimension array.
+   * Returns an iteration of all values found under this N-dimension array.
    *
-   * <p>Values necessarily resides in the last dimension of the array, so the number of values that
-   * could be visited by this iteration is equal to {@link #size()}.
+   * <p>Logically, the N-dimensional array is flatten in a vector of scalars, where scalars of the
+   * {@code n - 1} dimension precedes those of the {@code n} dimension, for a total of
+   * {@link #size()} values.
    *
-   * <p>The return iterable can be used to access a {@link  ValueIterator} directly that allows
-   * visiting the values for assignation. For example:
+   * <p>For example, given a {@code n x m} matrix on the {@code [x, y]} axes, values are iterated in the
+   * following order:
+   * <pre>
+   * x<sub>0</sub>y<sub>0</sub>, x<sub>0</sub>y<sub>1</sub>, ..., x<sub>0</sub>y<sub>m-1</sub>, x<sub>1</sub>y<sub>0</sub>, x<sub>1</sub>y<sub>1</sub>, ..., x<sub>n-1</sub>y<sub>m-1</sub>
+   * </pre>
+   *
+   * <p>The returned iterable can be used for reading, as any other iteration, or for writing
+   * by keeping a direct reference to its {@link ValueIterator}
    * <pre>{@code
-   *    // Access values for output
-   *    for (Float value: arrayOfFloat.values()) {
+   *    Iterable<Float> values = arrayOfFloat.values();
+   *
+   *    // Iterate values for reading
+   *    for (Float value: values) {
    *      System.out.println(value);
    *    }
-   *    // Access values for input
+   *
+   *    // Iterate values for writing
    *    float val = 0.0f;
-   *    for (ValueIterator<Float> iter = arrayOfFloat.values().iterator(); iter.hasNext();) {
+   *    for (ValueIterator<Float> iter = values.iterator(); iter.hasNext();) {
    *      iter.next(val++);
    *    }
    * }</pre>
+   *
    * @return an iteration of values of type {@code T}
    * @throws IllegalRankException if this array is a scalar (rank 0)
    */
@@ -103,8 +115,8 @@ public interface NdArray<T> {
   /**
    * Returns the N-dimensional element of this array at the given coordinates.
    *
-   * <p>Elements of all dimensions are accessible through this method, meaning that if the number of
-   * indices provided is equal to the number of dimensions, then a rank-0 (scalar) array is
+   * <p>Elements of any of the dimensions of this array can be retrieved. For example, if the number
+   * of indices is equal to the number of dimensions of this array, then a rank-0 (scalar) array is
    * returned, which value can then be obtained with `array.get()`.
    *
    * <p>Any changes applied to the returned elements affect the data of this array as well, as there
@@ -119,19 +131,18 @@ public interface NdArray<T> {
    * Creates a multi-dimensional view (or slice) of this array by mapping one or more dimensions
    * to the given index selectors.
    *
-   * <p>Slices allow to traverse an N-dimensional array in any of its axis and to filter only
+   * <p>Slices allow to traverse an N-dimensional array in any of its axis and/or to filter only
    * elements of interest. For example, for a given matrix on the {@code [x, y]} axes, it is
-   * possible to iterate through all rows on the {@code x} axis or the last
-   * three columns on the {@code y}.
+   * possible to iterate elements at {@code y=0} for all {@code x}.
    *
    * <p>Any changes applied to the returned slice affect the data of this array as well, as there
    * is no copy involved.
    *
    * <p>Example of usage:
    * <pre>{@code
-   *    import static org.tensorflow.nio.nd.index.Indices.*;
+   *    import static org.tensorflow.nio.StaticImports.*;
    *
-   *    NdArray<Float> matrix3d = NdArrays.ofFloats(Shape.make(3, 2, 4));  // with [x, y, z] axes
+   *    NdArray<Float> matrix3d = ndArrayOfFloats(shape(3, 2, 4));  // with [x, y, z] axes
    *
    *    // Iterates values over the 3rd elements on the z axis, (i.e. [x, x, 2])
    *    for (Float values = matrix3d.slice(all(), all(), at(2)).values()) {
@@ -141,11 +152,11 @@ public interface NdArray<T> {
    *    // Creates a slice that contains only the last element of the y axis and elements with an
    *    // odd `z` coordinate.
    *    NdArray<Float> slice = matrix3d.slice(all(), at(1), odd());
-   *    assertEquals(Shape.make(3, 2), slice.shape());  // x=3, y=0 (scalar), z=2 (odd coordinates)
+   *    assertEquals(shape(3, 2), slice.shape());  // x=3, y=0 (scalar), z=2 (odd coordinates)
    *
    *    // Iterates backward the elements on the x axis
    *    for (NdArray<Float> matrix = matrix3d.slice(flip())) {
-   *      assertEquals(Shape.make(2, 4), matrix);  // y=2, z=4
+   *      assertEquals(shape(2, 4), matrix);  // y=2, z=4
    *    }
    * }</pre>
    *

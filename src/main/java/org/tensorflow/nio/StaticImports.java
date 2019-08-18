@@ -18,7 +18,7 @@ import org.tensorflow.nio.nd.Shape;
 import org.tensorflow.nio.nd.index.Index;
 import org.tensorflow.nio.nd.index.Indices;
 
-final class StaticImports {
+public class StaticImports {
 
   public static <T> DataBuffer<T> bufferOf(Class<T> clazz, long capacity) {
     return DataBuffers.of(clazz, capacity);
@@ -138,6 +138,10 @@ final class StaticImports {
 
   public static DoubleNdArray ndArrayOf(DoubleDataBuffer buffer, Shape shape) {
     return NdArrays.wrap(buffer, shape);
+  }
+
+  public static Shape shape(long... dimensionSize) {
+    return Shape.make(dimensionSize);
   }
 
   public static Index at(long index) {
