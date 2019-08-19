@@ -26,7 +26,7 @@ import org.tensorflow.nio.nd.index.Index;
 public interface FloatNdArray extends NdArray<Float> {
 
   /**
-   * Reads the content of this N-dimensional array into the destination byte array.
+   * Reads the content of this N-dimensional array into the destination float array.
    *
    * <p>The size of the destination array must be equal or greater to the {@link #size()} of this array,
    * or an exception is thrown. After the copy, content of the both arrays can be altered
@@ -41,7 +41,7 @@ public interface FloatNdArray extends NdArray<Float> {
   }
 
   /**
-   * Reads the content of this N-dimensional array into the destination byte array.
+   * Reads the content of this N-dimensional array into the destination float array.
    *
    * <p>{@code dst.length - offset} must be equal or greater to the {@link #size()} of this array,
    * or an exception is thrown. After the copy, content of the both arrays can be altered
@@ -58,7 +58,7 @@ public interface FloatNdArray extends NdArray<Float> {
   }
 
   /**
-   * Writes the content of this N-dimensional array from the source byte array.
+   * Writes the content of this N-dimensional array from the source float array.
    *
    * <p>The size of the source array must be equal or greater to the {@link #size()} of this array,
    * or an exception is thrown. After the copy, content of the both arrays can be altered
@@ -73,7 +73,7 @@ public interface FloatNdArray extends NdArray<Float> {
   }
 
   /**
-   * Writes the content of this N-dimensional array from the source byte array.
+   * Writes the content of this N-dimensional array from the source float array.
    *
    * <p>{@code src.length - offset} must be equal or greater to the {@link #size()} of this array,
    * or an exception is thrown. After the copy, content of the both arrays can be altered
@@ -112,4 +112,16 @@ public interface FloatNdArray extends NdArray<Float> {
 
   @Override
   FloatNdArray write(DataBuffer<Float> src);
+
+  @Override
+  FloatNdArray read(Float[] dst);
+
+  @Override
+  FloatNdArray read(Float[] dst, int offset);
+
+  @Override
+  FloatNdArray write(Float[] src);
+
+  @Override
+  FloatNdArray write(Float[] src, int offset);
 }

@@ -26,7 +26,7 @@ import org.tensorflow.nio.nd.index.Index;
 public interface DoubleNdArray extends NdArray<Double> {
 
   /**
-   * Reads the content of this N-dimensional array into the destination byte array.
+   * Reads the content of this N-dimensional array into the destination double array.
    *
    * <p>The size of the destination array must be equal or greater to the {@link #size()} of this array,
    * or an exception is thrown. After the copy, content of the both arrays can be altered
@@ -41,7 +41,7 @@ public interface DoubleNdArray extends NdArray<Double> {
   }
 
   /**
-   * Reads the content of this N-dimensional array into the destination byte array.
+   * Reads the content of this N-dimensional array into the destination double array.
    *
    * <p>{@code dst.length - offset} must be equal or greater to the {@link #size()} of this array,
    * or an exception is thrown. After the copy, content of the both arrays can be altered
@@ -58,7 +58,7 @@ public interface DoubleNdArray extends NdArray<Double> {
   }
 
   /**
-   * Writes the content of this N-dimensional array from the source byte array.
+   * Writes the content of this N-dimensional array from the source double array.
    *
    * <p>The size of the source array must be equal or greater to the {@link #size()} of this array,
    * or an exception is thrown. After the copy, content of the both arrays can be altered
@@ -73,7 +73,7 @@ public interface DoubleNdArray extends NdArray<Double> {
   }
 
   /**
-   * Writes the content of this N-dimensional array from the source byte array.
+   * Writes the content of this N-dimensional array from the source double array.
    *
    * <p>{@code src.length - offset} must be equal or greater to the {@link #size()} of this array,
    * or an exception is thrown. After the copy, content of the both arrays can be altered
@@ -112,4 +112,16 @@ public interface DoubleNdArray extends NdArray<Double> {
 
   @Override
   DoubleNdArray write(DataBuffer<Double> src);
+
+  @Override
+  DoubleNdArray read(Double[] dst);
+
+  @Override
+  DoubleNdArray read(Double[] dst, int offset);
+
+  @Override
+  DoubleNdArray write(Double[] src);
+
+  @Override
+  DoubleNdArray write(Double[] src, int offset);
 }

@@ -26,7 +26,7 @@ import org.tensorflow.nio.nd.index.Index;
 public interface IntNdArray extends NdArray<Integer> {
 
   /**
-   * Reads the content of this N-dimensional array into the destination byte array.
+   * Reads the content of this N-dimensional array into the destination int array.
    *
    * <p>The size of the destination array must be equal or greater to the {@link #size()} of this array,
    * or an exception is thrown. After the copy, content of the both arrays can be altered
@@ -41,7 +41,7 @@ public interface IntNdArray extends NdArray<Integer> {
   }
 
   /**
-   * Reads the content of this N-dimensional array into the destination byte array.
+   * Reads the content of this N-dimensional array into the destination int array.
    *
    * <p>{@code dst.length - offset} must be equal or greater to the {@link #size()} of this array,
    * or an exception is thrown. After the copy, content of the both arrays can be altered
@@ -58,7 +58,7 @@ public interface IntNdArray extends NdArray<Integer> {
   }
 
   /**
-   * Writes the content of this N-dimensional array from the source byte array.
+   * Writes the content of this N-dimensional array from the source int array.
    *
    * <p>The size of the source array must be equal or greater to the {@link #size()} of this array,
    * or an exception is thrown. After the copy, content of the both arrays can be altered
@@ -73,7 +73,7 @@ public interface IntNdArray extends NdArray<Integer> {
   }
 
   /**
-   * Writes the content of this N-dimensional array from the source byte array.
+   * Writes the content of this N-dimensional array from the source int array.
    *
    * <p>{@code src.length - offset} must be equal or greater to the {@link #size()} of this array,
    * or an exception is thrown. After the copy, content of the both arrays can be altered
@@ -112,4 +112,16 @@ public interface IntNdArray extends NdArray<Integer> {
 
   @Override
   IntNdArray write(DataBuffer<Integer> src);
+
+  @Override
+  IntNdArray read(Integer[] dst);
+
+  @Override
+  IntNdArray read(Integer[] dst, int offset);
+
+  @Override
+  IntNdArray write(Integer[] src);
+
+  @Override
+  IntNdArray write(Integer[] src, int offset);
 }

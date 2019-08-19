@@ -16,8 +16,6 @@
  */
 package org.tensorflow.nio.nd.dimension;
 
-import java.util.Objects;
-
 import org.tensorflow.nio.nd.Shape;
 
 final class UnknownDimension extends AbstractDimension {

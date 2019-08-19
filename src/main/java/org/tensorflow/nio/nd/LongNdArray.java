@@ -26,7 +26,7 @@ import org.tensorflow.nio.nd.index.Index;
 public interface LongNdArray extends NdArray<Long> {
 
   /**
-   * Reads the content of this N-dimensional array into the destination byte array.
+   * Reads the content of this N-dimensional array into the destination long array.
    *
    * <p>The size of the destination array must be equal or greater to the {@link #size()} of this array,
    * or an exception is thrown. After the copy, content of the both arrays can be altered
@@ -41,7 +41,7 @@ public interface LongNdArray extends NdArray<Long> {
   }
 
   /**
-   * Reads the content of this N-dimensional array into the destination byte array.
+   * Reads the content of this N-dimensional array into the destination long array.
    *
    * <p>{@code dst.length - offset} must be equal or greater to the {@link #size()} of this array,
    * or an exception is thrown. After the copy, content of the both arrays can be altered
@@ -58,7 +58,7 @@ public interface LongNdArray extends NdArray<Long> {
   }
 
   /**
-   * Writes the content of this N-dimensional array from the source byte array.
+   * Writes the content of this N-dimensional array from the source long array.
    *
    * <p>The size of the source array must be equal or greater to the {@link #size()} of this array,
    * or an exception is thrown. After the copy, content of the both arrays can be altered
@@ -73,7 +73,7 @@ public interface LongNdArray extends NdArray<Long> {
   }
 
   /**
-   * Writes the content of this N-dimensional array from the source byte array.
+   * Writes the content of this N-dimensional array from the source long array.
    *
    * <p>{@code src.length - offset} must be equal or greater to the {@link #size()} of this array,
    * or an exception is thrown. After the copy, content of the both arrays can be altered
@@ -112,4 +112,16 @@ public interface LongNdArray extends NdArray<Long> {
 
   @Override
   LongNdArray write(DataBuffer<Long> src);
+
+  @Override
+  LongNdArray read(Long[] dst);
+
+  @Override
+  LongNdArray read(Long[] dst, int offset);
+
+  @Override
+  LongNdArray write(Long[] src);
+
+  @Override
+  LongNdArray write(Long[] src, int offset);
 }

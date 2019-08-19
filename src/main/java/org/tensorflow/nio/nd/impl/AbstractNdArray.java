@@ -20,6 +20,7 @@ import java.nio.BufferOverflowException;
 import java.nio.BufferUnderflowException;
 
 import org.tensorflow.nio.buffer.DataBuffer;
+import org.tensorflow.nio.buffer.DataBuffers;
 import org.tensorflow.nio.nd.NdArray;
 import org.tensorflow.nio.nd.Shape;
 import org.tensorflow.nio.nd.iterator.Iterators;
@@ -69,6 +70,22 @@ public abstract class AbstractNdArray<T, U extends NdArray<T>> implements NdArra
       dstIter.next(srcIter.next());
     }
     return (U)this;
+  }
+
+  @Override public U read(T[] dst) {
+    return (U)read(DataBuffers.wrap(dst, false));
+  }
+
+  @Override public U read(T[] dst, int offset) {
+    return (U)read(DataBuffers.wrap(dst, false).position(offset));
+  }
+
+  @Override public U write(T[] src) {
+    return (U)write(DataBuffers.wrap(src, false));
+  }
+
+  @Override public U write(T[] src, int offset) {
+    return (U)write(DataBuffers.wrap(src, false).position(offset));
   }
 
   protected AbstractNdArray(Shape shape) {

@@ -112,4 +112,16 @@ public interface ByteNdArray extends NdArray<Byte> {
 
   @Override
   ByteNdArray write(DataBuffer<Byte> src);
+
+  @Override
+  ByteNdArray read(Byte[] dst);
+
+  @Override
+  ByteNdArray read(Byte[] dst, int offset);
+
+  @Override
+  ByteNdArray write(Byte[] src);
+
+  @Override
+  ByteNdArray write(Byte[] src, int offset);
 }

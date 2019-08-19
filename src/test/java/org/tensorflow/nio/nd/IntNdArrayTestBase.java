@@ -35,7 +35,7 @@ public abstract class IntNdArrayTestBase extends NdArrayTestBase<Integer> {
     }
 
     @Test
-    public void writeAndReadWithArrays() {
+    public void writeAndReadWithPrimitiveArrays() {
         int[] values = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 
         IntNdArray matrix = allocate(Shape.create(3, 4));

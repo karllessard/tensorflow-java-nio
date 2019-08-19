@@ -20,6 +20,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 import static org.tensorflow.nio.StaticApi.*;
 
+import java.nio.BufferOverflowException;
+import java.nio.BufferUnderflowException;
+import java.util.Arrays;
+import java.util.stream.LongStream;
+
 import org.junit.Test;
 import org.tensorflow.nio.buffer.DataBuffer;
 import org.tensorflow.nio.nd.iterator.ValueIterator;
@@ -269,6 +274,90 @@ public abstract class NdArrayTestBase<T> {
     }
     try {
       matrixA.copyTo(matrixC);
+      fail();
+    } catch (IllegalArgumentException e) {
+      // as expected
+    }
+  }
+
+  @Test
+  @SuppressWarnings("unchecked")
+  public void writeAndReadWithArrays() {
+    T[] values = (T[])LongStream.range(0L, 16L).boxed().map(this::valueOf).toArray();
+
+    NdArray<T> matrix = allocate(shape(3, 4));
+    matrix.write(values);
+    assertEquals(valueOf(0L), matrix.get(0, 0));
+    assertEquals(valueOf(3L), matrix.get(0, 3));
+    assertEquals(valueOf(4L), matrix.get(1, 0));
+    assertEquals(valueOf(11L), matrix.get(2, 3));
+
+    matrix.write(values, 4);
+    assertEquals(valueOf(4L), matrix.get(0, 0));
+    assertEquals(valueOf(7L), matrix.get(0, 3));
+    assertEquals(valueOf(8L), matrix.get(1, 0));
+    assertEquals(valueOf(15L), matrix.get(2, 3));
+
+    matrix.set(valueOf(100L), 1, 0);
+    matrix.read(values, 2);
+    assertEquals(valueOf(4L), values[2]);
+    assertEquals(valueOf(7L), values[5]);
+    assertEquals(valueOf(100L), values[6]);
+    assertEquals(valueOf(15L), values[13]);
+    assertEquals(valueOf(15L), values[15]);
+
+    matrix.read(values);
+    assertEquals(valueOf(4L), values[0]);
+    assertEquals(valueOf(7L), values[3]);
+    assertEquals(valueOf(100L), values[4]);
+    assertEquals(valueOf(15L), values[11]);
+    assertEquals(valueOf(15L), values[13]);
+    assertEquals(valueOf(15L), values[15]);
+
+    try {
+      matrix.write((T[])LongStream.range(0L, 4L).boxed().map(this::valueOf).toArray());
+      fail();
+    } catch (BufferUnderflowException e) {
+      // as expected
+    }
+    try {
+      matrix.write(values, values.length);
+      fail();
+    } catch (BufferUnderflowException e) {
+      // as expected
+    }
+    try {
+      matrix.write(values, -1);
+      fail();
+    } catch (IllegalArgumentException e) {
+      // as expected
+    }
+    try {
+      matrix.write(values, values.length + 1);
+      fail();
+    } catch (IllegalArgumentException e) {
+      // as expected
+    }
+    try {
+      matrix.read((T[])LongStream.range(0L, 4L).boxed().map(this::valueOf).toArray());
+      fail();
+    } catch (BufferOverflowException e) {
+      // as expected
+    }
+    try {
+      matrix.read(values, values.length);
+      fail();
+    } catch (BufferOverflowException e) {
+      // as expected
+    }
+    try {
+      matrix.read(values, -1);
+      fail();
+    } catch (IllegalArgumentException e) {
+      // as expected
+    }
+    try {
+      matrix.read(values, values.length + 1);
       fail();
     } catch (IllegalArgumentException e) {
       // as expected

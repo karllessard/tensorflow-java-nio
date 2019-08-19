@@ -99,7 +99,7 @@ public abstract class AbstractDenseNdArray<T, U extends NdArray<T>> extends Abst
     return (U)this;
   }
 
-  protected AbstractDenseNdArray(Shape shape) {
+  AbstractDenseNdArray(Shape shape) {
     super(shape);
   }
 

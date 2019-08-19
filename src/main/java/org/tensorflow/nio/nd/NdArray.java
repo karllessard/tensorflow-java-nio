@@ -17,6 +17,7 @@
 package org.tensorflow.nio.nd;
 
 import org.tensorflow.nio.buffer.DataBuffer;
+import org.tensorflow.nio.buffer.DataBuffers;
 import org.tensorflow.nio.nd.index.Index;
 import org.tensorflow.nio.nd.iterator.ValueIterable;
 import org.tensorflow.nio.nd.iterator.ValueIterator;
@@ -273,4 +274,60 @@ public interface NdArray<T> {
    * @see DataBuffer#remaining()
    */
   NdArray<T> write(DataBuffer<T> src);
+
+  /**
+   * Reads the content of this N-dimensional array into the destination array.
+   *
+   * <p>The size of the destination array must be equal or greater to the {@link #size()} of this array,
+   * or an exception is thrown. After the copy, content of the both arrays can be altered
+   * independently, without affecting each other.
+   *
+   * @param dst the destination array
+   * @return this array
+   * @throws java.nio.BufferOverflowException if the destination array cannot hold the content of this array
+   */
+  NdArray<T> read(T[] dst);
+
+  /**
+   * Reads the content of this N-dimensional array into the destination array.
+   *
+   * <p>{@code dst.length - offset} must be equal or greater to the {@link #size()} of this array,
+   * or an exception is thrown. After the copy, content of the both arrays can be altered
+   * independently, without affecting each other.
+   *
+   * @param dst the destination array
+   * @param offset the index of the first element to write in the destination array
+   * @return this array
+   * @throws java.nio.BufferOverflowException if the destination array cannot hold the content of this array
+   * @throws IllegalArgumentException if offset is greater than dst length or is negative
+   */
+  NdArray<T> read(T[] dst, int offset);
+
+  /**
+   * Writes the content of this N-dimensional array from the source array.
+   *
+   * <p>The size of the source array must be equal or greater to the {@link #size()} of this array,
+   * or an exception is thrown. After the copy, content of the both arrays can be altered
+   * independently, without affecting each other.
+   *
+   * @param src the source array
+   * @return this array
+   * @throws java.nio.BufferUnderflowException if the size of the source array is less than the size of this array
+   */
+  NdArray<T> write(T[] src);
+
+  /**
+   * Writes the content of this N-dimensional array from the source array.
+   *
+   * <p>{@code src.length - offset} must be equal or greater to the {@link #size()} of this array,
+   * or an exception is thrown. After the copy, content of the both arrays can be altered
+   * independently, without affecting each other.
+   *
+   * @param src the source array
+   * @param offset the index of the first byte to read from the source array
+   * @return this array
+   * @throws java.nio.BufferUnderflowException if the size of the source array is less than the size of this array
+   * @throws IllegalArgumentException if offset is greater than src length or is negative
+   */
+  NdArray<T> write(T[] src, int offset);
 }

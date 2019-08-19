@@ -35,7 +35,7 @@ public abstract class ByteNdArrayTestBase extends NdArrayTestBase<Byte> {
     }
 
     @Test
-    public void writeAndReadWithArrays() {
+    public void writeAndReadWithPrimitiveArrays() {
         byte[] values = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 };
 
         ByteNdArray matrix = allocate(Shape.create(3, 4));
