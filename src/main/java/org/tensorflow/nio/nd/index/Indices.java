@@ -41,7 +41,7 @@ public final class Indices {
     if (indices == null) {
       throw new IllegalArgumentException();
     }
-    return new Sequence(NdArrays.wrap(indices, Shape.make(indices.length)));
+    return new Sequence(NdArrays.wrap(indices, Shape.create(indices.length)));
   }
   
   public static Index elem(NdArray<? extends Number> indices) {

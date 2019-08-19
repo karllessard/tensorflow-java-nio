@@ -29,11 +29,6 @@ public final class Shape {
 
   public static final long UNKNOWN_SIZE = -1L;
 
-  /** Create a Shape representing a scalar value. */
-  public static Shape scalar() {
-    return new Shape(new Dimension[0]);
-  }
-
   /**
    * Create a Shape representing an N-dimensional value.
    *
@@ -55,9 +50,9 @@ public final class Shape {
    * Shape batch = Shape.create(-1, 4);
    * }</pre>
    */
-  public static Shape make(long... dimensionSizes) {
+  public static Shape create(long... dimensionSizes) {
     if (dimensionSizes == null) {
-      return scalar();
+      return new Shape(new Dimension[0]);
     }
     Dimension[] dimensions = new Dimension[dimensionSizes.length];
 

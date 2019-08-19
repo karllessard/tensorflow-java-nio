@@ -18,173 +18,173 @@ import org.tensorflow.nio.nd.Shape;
 import org.tensorflow.nio.nd.index.Index;
 import org.tensorflow.nio.nd.index.Indices;
 
-public class StaticApi {
+public interface StaticApi {
 
-  public static <T> DataBuffer<T> bufferOf(Class<T> clazz, long capacity) {
+  static <T> DataBuffer<T> bufferOf(Class<T> clazz, long capacity) {
     return DataBuffers.of(clazz, capacity);
   }
 
-  public static <T> DataBuffer<T> bufferOf(T[] array, boolean readOnly) {
+  static <T> DataBuffer<T> bufferOf(T[] array, boolean readOnly) {
     return DataBuffers.wrap(array, readOnly);
   }
   
-  public static ByteDataBuffer bufferOfBytes(long capacity) {
+  static ByteDataBuffer bufferOfBytes(long capacity) {
     return DataBuffers.ofBytes(capacity);
   }
 
-  public static ByteDataBuffer bufferOf(byte[] array, boolean readOnly) {
+  static ByteDataBuffer bufferOf(byte[] array, boolean readOnly) {
     return DataBuffers.wrap(array, readOnly);
   }
 
-  public static IntDataBuffer bufferOfInts(long capacity) {
+  static IntDataBuffer bufferOfInts(long capacity) {
     return DataBuffers.ofIntegers(capacity);
   }
 
-  public static IntDataBuffer bufferOf(int[] array, boolean readOnly) {
+  static IntDataBuffer bufferOf(int[] array, boolean readOnly) {
     return DataBuffers.wrap(array, readOnly);
   }
   
-  public static LongDataBuffer bufferOfLongs(long capacity) {
+  static LongDataBuffer bufferOfLongs(long capacity) {
     return DataBuffers.ofLongs(capacity);
   }
 
-  public static LongDataBuffer bufferOf(long[] array, boolean readOnly) {
+  static LongDataBuffer bufferOf(long[] array, boolean readOnly) {
     return DataBuffers.wrap(array, readOnly);
   }
   
-  public static FloatDataBuffer bufferOfFloats(long capacity) {
+  static FloatDataBuffer bufferOfFloats(long capacity) {
     return DataBuffers.ofFloats(capacity);
   }
 
-  public static FloatDataBuffer bufferOf(float[] array, boolean readOnly) {
+  static FloatDataBuffer bufferOf(float[] array, boolean readOnly) {
     return DataBuffers.wrap(array, readOnly);
   }
   
-  public static DoubleDataBuffer bufferOfDoubles(long capacity) {
+  static DoubleDataBuffer bufferOfDoubles(long capacity) {
     return DataBuffers.ofDoubles(capacity);
   }
 
-  public static DoubleDataBuffer bufferOf(double[] array, boolean readOnly) {
+  static DoubleDataBuffer bufferOf(double[] array, boolean readOnly) {
     return DataBuffers.wrap(array, readOnly);
   }
 
-  public static <T> NdArray<T> ndArrayOf(Class<T> clazz, Shape shape) {
+  static <T> NdArray<T> ndArrayOf(Class<T> clazz, Shape shape) {
     return NdArrays.of(clazz, shape);
   }
 
-  public static <T> NdArray<T> ndArrayOf(T[] values, Shape shape) {
+  static <T> NdArray<T> ndArrayOf(T[] values, Shape shape) {
     return NdArrays.wrap(values, shape);
   }
 
-  public static <T> NdArray<T> ndArrayOf(DataBuffer<T> buffer, Shape shape) {
+  static <T> NdArray<T> ndArrayOf(DataBuffer<T> buffer, Shape shape) {
     return NdArrays.wrap(buffer, shape);
   } 
 
-  public static ByteNdArray ndArrayOfBytes(Shape shape) {
+  static ByteNdArray ndArrayOfBytes(Shape shape) {
     return NdArrays.ofBytes(shape);
   }
 
-  public static ByteNdArray ndArrayOf(byte[] values, Shape shape) {
+  static ByteNdArray ndArrayOf(byte[] values, Shape shape) {
     return NdArrays.wrap(values, shape);
   }
 
-  public static ByteNdArray ndArrayOf(ByteDataBuffer buffer, Shape shape) {
+  static ByteNdArray ndArrayOf(ByteDataBuffer buffer, Shape shape) {
     return NdArrays.wrap(buffer, shape);
   }
 
-  public static IntNdArray ndArrayOfInts(Shape shape) {
+  static IntNdArray ndArrayOfInts(Shape shape) {
     return NdArrays.ofIntegers(shape);
   }
 
-  public static IntNdArray ndArrayOf(int[] values, Shape shape) {
+  static IntNdArray ndArrayOf(int[] values, Shape shape) {
     return NdArrays.wrap(values, shape);
   }
 
-  public static IntNdArray ndArrayOf(IntDataBuffer buffer, Shape shape) {
+  static IntNdArray ndArrayOf(IntDataBuffer buffer, Shape shape) {
     return NdArrays.wrap(buffer, shape);
   }
 
-  public static LongNdArray ndArrayOfLongs(Shape shape) {
+  static LongNdArray ndArrayOfLongs(Shape shape) {
     return NdArrays.ofLongs(shape);
   }
 
-  public static LongNdArray ndArrayOf(long[] values, Shape shape) {
+  static LongNdArray ndArrayOf(long[] values, Shape shape) {
     return NdArrays.wrap(values, shape);
   }
 
-  public static LongNdArray ndArrayOf(LongDataBuffer buffer, Shape shape) {
+  static LongNdArray ndArrayOf(LongDataBuffer buffer, Shape shape) {
     return NdArrays.wrap(buffer, shape);
   }
 
-  public static FloatNdArray ndArrayOfFloats(Shape shape) {
+  static FloatNdArray ndArrayOfFloats(Shape shape) {
     return NdArrays.ofFloats(shape);
   }
 
-  public static FloatNdArray ndArrayOf(float[] values, Shape shape) {
+  static FloatNdArray ndArrayOf(float[] values, Shape shape) {
     return NdArrays.wrap(values, shape);
   }
 
-  public static FloatNdArray ndArrayOf(FloatDataBuffer buffer, Shape shape) {
+  static FloatNdArray ndArrayOf(FloatDataBuffer buffer, Shape shape) {
     return NdArrays.wrap(buffer, shape);
   }
 
-  public static DoubleNdArray ndArrayOfDoubles(Shape shape) {
+  static DoubleNdArray ndArrayOfDoubles(Shape shape) {
     return NdArrays.ofDoubles(shape);
   }
 
-  public static DoubleNdArray ndArrayOf(double[] values, Shape shape) {
+  static DoubleNdArray ndArrayOf(double[] values, Shape shape) {
     return NdArrays.wrap(values, shape);
   }
 
-  public static DoubleNdArray ndArrayOf(DoubleDataBuffer buffer, Shape shape) {
+  static DoubleNdArray ndArrayOf(DoubleDataBuffer buffer, Shape shape) {
     return NdArrays.wrap(buffer, shape);
   }
 
-  public static Shape shape(long... dimensionSize) {
-    return Shape.make(dimensionSize);
+  static Shape shape(long... dimensionSize) {
+    return Shape.create(dimensionSize);
   }
 
-  public static Index at(long index) {
+  static Index at(long index) {
     return Indices.at(index);
   }
 
-  public static Index at(NdArray<? extends Number> index) {
+  static Index at(NdArray<? extends Number> index) {
     return Indices.at(index);
   }
   
-  public static Index all() {
+  static Index all() {
     return Indices.all();
   }
   
-  public static Index seq(long... indices) {
+  static Index seq(long... indices) {
     return Indices.seq(indices);
   }
   
-  public static Index elem(NdArray<? extends Number> indices) {
+  static Index elem(NdArray<? extends Number> indices) {
     return Indices.elem(indices);
   }
   
-  public static Index even() {
+  static Index even() {
     return Indices.even();
   }
 
-  public static Index odd() {
+  static Index odd() {
     return Indices.odd();
   }
   
-  public static Index step(long stepLength) {
+  static Index step(long stepLength) {
     return Indices.step(stepLength);
   }
   
-  public static Index from(long start) {
+  static Index from(long start) {
     return Indices.from(start);
   }
 
-  public static Index to(long end) {
+  static Index to(long end) {
     return Indices.to(end);
   }
   
-  public static Index range(long start, long end) {
+  static Index range(long start, long end) {
     return Indices.range(start, end);
   }
 }

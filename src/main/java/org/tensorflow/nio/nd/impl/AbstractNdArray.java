@@ -71,33 +71,19 @@ public abstract class AbstractNdArray<T, U extends NdArray<T>> implements NdArra
     return (U)this;
   }
 
-  @Override
-  public U read(DataBuffer<T> buffer) {
-    if (buffer.remaining() < size()) {
-      throw new BufferOverflowException();
-    }
-    long i = 0;
-    for (ValueIterator<T> srcIter = values().iterator(); srcIter.hasNext();) {
-      buffer.put(i++, srcIter.next());
-    }
-    return (U)this;
-  }
-
-  @Override
-  public U write(DataBuffer<T> buffer) {
-    if (buffer.remaining() < size()) {
-      throw new BufferUnderflowException();
-    }
-    long i = 0;
-    for (ValueIterator<T> dstIter = values().iterator(); dstIter.hasNext();) {
-      dstIter.next(buffer.get(i++));
-    }
-    return (U)this;
-  }
-
   protected AbstractNdArray(Shape shape) {
     this.shape = shape;
   }
-  
+
+  protected void slowRead(DataBuffer<T> buffer) {
+    values().iterator().forEachRemaining(buffer::put);
+  }
+
+  protected void slowWrite(DataBuffer<T> buffer) {
+    for (ValueIterator<T> dstIter = values().iterator(); dstIter.hasNext();) {
+      dstIter.next(buffer.get());
+    }
+  }
+
   private final Shape shape;
 }

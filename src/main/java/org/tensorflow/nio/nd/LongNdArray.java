@@ -51,6 +51,7 @@ public interface LongNdArray extends NdArray<Long> {
    * @param offset the index of the first long to write in the destination array
    * @return this array
    * @throws java.nio.BufferOverflowException if the destination array cannot hold the content of this array
+   * @throws IllegalArgumentException if offset is greater than dst length or is negative
    */
   default LongNdArray read(long[] dst, int offset) {
     return read(DataBuffers.wrap(dst, false).position(offset));
@@ -82,6 +83,7 @@ public interface LongNdArray extends NdArray<Long> {
    * @param offset the index of the first long to read from the source array
    * @return this array
    * @throws java.nio.BufferUnderflowException if the size of the source array is less than the size of this array
+   * @throws IllegalArgumentException if offset is greater than src length or is negative
    */
   default LongNdArray write(long[] src, int offset) {
     return write(DataBuffers.wrap(src, false).position(offset));

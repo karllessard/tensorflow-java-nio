@@ -51,6 +51,7 @@ public interface IntNdArray extends NdArray<Integer> {
    * @param offset the index of the first integer to write in the destination array
    * @return this array
    * @throws java.nio.BufferOverflowException if the destination array cannot hold the content of this array
+   * @throws IllegalArgumentException if offset is greater than dst length or is negative
    */
   default IntNdArray read(int[] dst, int offset) {
     return read(DataBuffers.wrap(dst, false).position(offset));
@@ -82,6 +83,7 @@ public interface IntNdArray extends NdArray<Integer> {
    * @param offset the index of the first integer to read from the source array
    * @return this array
    * @throws java.nio.BufferUnderflowException if the size of the source array is less than the size of this array
+   * @throws IllegalArgumentException if offset is greater than src length or is negative
    */
   default IntNdArray write(int[] src, int offset) {
     return write(DataBuffers.wrap(src, false).position(offset));

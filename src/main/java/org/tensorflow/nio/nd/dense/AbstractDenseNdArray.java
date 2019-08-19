@@ -16,6 +16,9 @@
  */
 package org.tensorflow.nio.nd.dense;
 
+import java.nio.BufferOverflowException;
+import java.nio.BufferUnderflowException;
+
 import org.tensorflow.nio.buffer.DataBuffer;
 import org.tensorflow.nio.nd.IllegalRankException;
 import org.tensorflow.nio.nd.NdArray;
@@ -72,20 +75,26 @@ public abstract class AbstractDenseNdArray<T, U extends NdArray<T>> extends Abst
 
   @Override
   public U read(DataBuffer<T> dst) {
+    if (dst.remaining() < size()) {
+      throw new BufferOverflowException();
+    }
     if (isBulkCopyAvailable()) {
-      BulkDataTransfer.create(this).execute(dst::put);
+      BulkDataTransfer.create(this).execute((buffer, size) -> dst.put(buffer.limit(size)));
     } else {
-      super.read(dst);
+      slowRead(dst);
     }
     return (U)this;
   }
 
   @Override
   public U write(DataBuffer<T> src) {
+    if (src.remaining() < size()) {
+      throw new BufferUnderflowException();
+    }
     if (isBulkCopyAvailable()) {
-      BulkDataTransfer.create(this).execute(b -> b.put(src));
+      BulkDataTransfer.create(this).execute((buffer, size) -> buffer.put(src.limit(src.position() + size)));
     } else {
-      super.write(src);
+      slowWrite(src);
     }
     return (U)this;
   }

@@ -16,12 +16,15 @@
  */
 package org.tensorflow.nio.nd.dense;
 
-import java.util.function.Consumer;
-
 import org.tensorflow.nio.buffer.DataBuffer;
 import org.tensorflow.nio.nd.dimension.Dimension;
 
 class BulkDataTransfer<T> {
+
+  @FunctionalInterface
+  interface BulkCopy<T> {
+    void invoke(DataBuffer<T> arrayBuffer, long bulkCopySize);
+  }
   
   static <T> BulkDataTransfer<T> create(AbstractDenseNdArray<T, ?> array) {
     int bulkCopyDimensionIdx = -1;
@@ -43,7 +46,7 @@ class BulkDataTransfer<T> {
     return new BulkDataTransfer<>(array, bulkCopyDimensionIdx, bulkCopySize);
   }
   
-  void execute(Consumer<DataBuffer<T>> bulkCopy) {
+  void execute(BulkCopy<T> bulkCopy) {
     execute(bulkCopy, array, 0);
   }
 
@@ -57,9 +60,9 @@ class BulkDataTransfer<T> {
     this.bulkCopySize = bulkCopySize;
   }
 
-  private void execute(Consumer<DataBuffer<T>> bulkCopy, AbstractDenseNdArray<T, ?> element, int dimensionIdx) {
+  private void execute(BulkCopy<T> bulkCopy, AbstractDenseNdArray<T, ?> element, int dimensionIdx) {
     if (dimensionIdx == bulkCopyDimensionIdx) {
-      bulkCopy.accept(element.buffer().withLimit(bulkCopySize));
+      bulkCopy.invoke(element.buffer().duplicate(), bulkCopySize);
     } else {
       element.childElements().forEach(e -> execute(bulkCopy, (AbstractDenseNdArray<T, ?>)e, dimensionIdx + 1));
     }
