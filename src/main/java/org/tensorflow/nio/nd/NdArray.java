@@ -223,8 +223,8 @@ public interface NdArray<T> {
   /**
    * Copy the content of this array to the destination array.
    *
-   * <p>The shape of the destination array must be equal to the shape of this array, or an exception is
-   * thrown. After the copy, the content of both arrays can be modified independently, without affecting
+   * <p>The {@link #shape()} of the destination array must be equal to the shape of this array, or an exception is
+   * thrown. After the copy, the content of both arrays can be altered independently, without affecting
    * each other.
    *
    * @param dst array to receive a copy of the content of this array
@@ -236,8 +236,8 @@ public interface NdArray<T> {
   /**
    * Copy the content of the source array to this array.
    *
-   * <p>The shape of the source array must be equal to the shape of this array, or an exception is
-   * thrown. After the copy, the content of both arrays can be modified independently, without affecting
+   * <p>The {@link #shape()} of the source array must be equal to the shape of this array, or an exception is
+   * thrown. After the copy, the content of both arrays can be altered independently, without affecting
    * each other.
    *
    * @param src array from which content is copied to this array
@@ -247,24 +247,24 @@ public interface NdArray<T> {
   NdArray<T> copyFrom(NdArray<T> src);
 
   /**
-   * Read the content of this array into the provided buffer.
+   * Read the content of this N-dimensional array into the destination buffer.
    *
    * <p>The remaining space of the buffer must be equal or greater to the {@link #size()} of this array,
-   * or an exception is thrown. After the copy, content of the buffer and of the array can be modified
+   * or an exception is thrown. After the copy, content of the buffer and of the array can be altered
    * independently, without affecting each other.
    *
    * @param dst the destination buffer
    * @return this array
-   * @throws java.nio.BufferOverflowException if buffer cannot hold the content of this array
+   * @throws java.nio.BufferOverflowException if the buffer cannot hold the content of this array
    * @see DataBuffer#remaining()
    */
   NdArray<T> read(DataBuffer<T> dst);
 
   /**
-   * Write the content of this array from the provided buffer.
+   * Write the content of this N-dimensional array from the source buffer.
    *
    * <p>The remaining data of the buffer must be equal or greater to the {@link #size()} of this array,
-   * or an exception is thrown. After the copy, content of the buffer and of the array can be modified
+   * or an exception is thrown. After the copy, content of the buffer and of the array can be altered
    * independently, without affecting each other.
    *
    * @param src the source buffer

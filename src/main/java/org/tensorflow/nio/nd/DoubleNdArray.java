@@ -20,8 +20,73 @@ import org.tensorflow.nio.buffer.DataBuffer;
 import org.tensorflow.nio.buffer.DataBuffers;
 import org.tensorflow.nio.nd.index.Index;
 
+/**
+ * An {@link NdArray} of doubles.
+ */
 public interface DoubleNdArray extends NdArray<Double> {
-  
+
+  /**
+   * Reads the content of this N-dimensional array into the destination byte array.
+   *
+   * <p>The size of the destination array must be equal or greater to the {@link #size()} of this array,
+   * or an exception is thrown. After the copy, content of the both arrays can be altered
+   * independently, without affecting each other.
+   *
+   * @param dst the destination array
+   * @return this array
+   * @throws java.nio.BufferOverflowException if the destination array cannot hold the content of this array
+   */
+  default DoubleNdArray read(double[] dst) {
+    return read(DataBuffers.wrap(dst, false));
+  }
+
+  /**
+   * Reads the content of this N-dimensional array into the destination byte array.
+   *
+   * <p>{@code dst.length - offset} must be equal or greater to the {@link #size()} of this array,
+   * or an exception is thrown. After the copy, content of the both arrays can be altered
+   * independently, without affecting each other.
+   *
+   * @param dst the destination array
+   * @param offset the index of the first double to write in the destination array
+   * @return this array
+   * @throws java.nio.BufferOverflowException if the destination array cannot hold the content of this array
+   */
+  default DoubleNdArray read(double[] dst, int offset) {
+    return read(DataBuffers.wrap(dst, false).position(offset));
+  }
+
+  /**
+   * Writes the content of this N-dimensional array from the source byte array.
+   *
+   * <p>The size of the source array must be equal or greater to the {@link #size()} of this array,
+   * or an exception is thrown. After the copy, content of the both arrays can be altered
+   * independently, without affecting each other.
+   *
+   * @param src the source array
+   * @return this array
+   * @throws java.nio.BufferUnderflowException if the size of the source array is less than the size of this array
+   */
+  default DoubleNdArray write(double[] src) {
+    return write(DataBuffers.wrap(src, false));
+  }
+
+  /**
+   * Writes the content of this N-dimensional array from the source byte array.
+   *
+   * <p>{@code src.length - offset} must be equal or greater to the {@link #size()} of this array,
+   * or an exception is thrown. After the copy, content of the both arrays can be altered
+   * independently, without affecting each other.
+   *
+   * @param src the source array
+   * @param offset the index of the first double to read from the source array
+   * @return this array
+   * @throws java.nio.BufferUnderflowException if the size of the source array is less than the size of this array
+   */
+  default DoubleNdArray write(double[] src, int offset) {
+    return write(DataBuffers.wrap(src, false).position(offset));
+  }
+
   @Override
   DoubleNdArray at(long... indices);
   
@@ -45,8 +110,4 @@ public interface DoubleNdArray extends NdArray<Double> {
 
   @Override
   DoubleNdArray write(DataBuffer<Double> src);
-
-  default void read(double[] dst) { read(DataBuffers.wrap(dst, false)); }
-  
-  default void write(double[] src) { write(DataBuffers.wrap(src, false)); }
 }

@@ -20,8 +20,73 @@ import org.tensorflow.nio.buffer.DataBuffer;
 import org.tensorflow.nio.buffer.DataBuffers;
 import org.tensorflow.nio.nd.index.Index;
 
+/**
+ * An {@link NdArray} of integers.
+ */
 public interface IntNdArray extends NdArray<Integer> {
-  
+
+  /**
+   * Reads the content of this N-dimensional array into the destination byte array.
+   *
+   * <p>The size of the destination array must be equal or greater to the {@link #size()} of this array,
+   * or an exception is thrown. After the copy, content of the both arrays can be altered
+   * independently, without affecting each other.
+   *
+   * @param dst the destination array
+   * @return this array
+   * @throws java.nio.BufferOverflowException if the destination array cannot hold the content of this array
+   */
+  default IntNdArray read(int[] dst) {
+    return read(DataBuffers.wrap(dst, false));
+  }
+
+  /**
+   * Reads the content of this N-dimensional array into the destination byte array.
+   *
+   * <p>{@code dst.length - offset} must be equal or greater to the {@link #size()} of this array,
+   * or an exception is thrown. After the copy, content of the both arrays can be altered
+   * independently, without affecting each other.
+   *
+   * @param dst the destination array
+   * @param offset the index of the first integer to write in the destination array
+   * @return this array
+   * @throws java.nio.BufferOverflowException if the destination array cannot hold the content of this array
+   */
+  default IntNdArray read(int[] dst, int offset) {
+    return read(DataBuffers.wrap(dst, false).position(offset));
+  }
+
+  /**
+   * Writes the content of this N-dimensional array from the source byte array.
+   *
+   * <p>The size of the source array must be equal or greater to the {@link #size()} of this array,
+   * or an exception is thrown. After the copy, content of the both arrays can be altered
+   * independently, without affecting each other.
+   *
+   * @param src the source array
+   * @return this array
+   * @throws java.nio.BufferUnderflowException if the size of the source array is less than the size of this array
+   */
+  default IntNdArray write(int[] src) {
+    return write(DataBuffers.wrap(src, false));
+  }
+
+  /**
+   * Writes the content of this N-dimensional array from the source byte array.
+   *
+   * <p>{@code src.length - offset} must be equal or greater to the {@link #size()} of this array,
+   * or an exception is thrown. After the copy, content of the both arrays can be altered
+   * independently, without affecting each other.
+   *
+   * @param src the source array
+   * @param offset the index of the first integer to read from the source array
+   * @return this array
+   * @throws java.nio.BufferUnderflowException if the size of the source array is less than the size of this array
+   */
+  default IntNdArray write(int[] src, int offset) {
+    return write(DataBuffers.wrap(src, false).position(offset));
+  }
+
   @Override
   IntNdArray at(long... indices);
   
@@ -45,8 +110,4 @@ public interface IntNdArray extends NdArray<Integer> {
 
   @Override
   IntNdArray write(DataBuffer<Integer> src);
-
-  default void read(int[] dst) { read(DataBuffers.wrap(dst, false)); }
-  
-  default void write(int[] src) { write(DataBuffers.wrap(src, false)); }
 }

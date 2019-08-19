@@ -20,11 +20,76 @@ import org.tensorflow.nio.buffer.DataBuffer;
 import org.tensorflow.nio.buffer.DataBuffers;
 import org.tensorflow.nio.nd.index.Index;
 
+/**
+ * An {@link NdArray} of bytes.
+ */
 public interface ByteNdArray extends NdArray<Byte> {
-  
+
+  /**
+   * Reads the content of this N-dimensional array into the destination byte array.
+   *
+   * <p>The size of the destination array must be equal or greater to the {@link #size()} of this array,
+   * or an exception is thrown. After the copy, content of the both arrays can be altered
+   * independently, without affecting each other.
+   *
+   * @param dst the destination array
+   * @return this array
+   * @throws java.nio.BufferOverflowException if the destination array cannot hold the content of this array
+   */
+  default ByteNdArray read(byte[] dst) {
+    return read(DataBuffers.wrap(dst, false));
+  }
+
+  /**
+   * Reads the content of this N-dimensional array into the destination byte array.
+   *
+   * <p>{@code dst.length - offset} must be equal or greater to the {@link #size()} of this array,
+   * or an exception is thrown. After the copy, content of the both arrays can be altered
+   * independently, without affecting each other.
+   *
+   * @param dst the destination array
+   * @param offset the index of the first byte to write in the destination array
+   * @return this array
+   * @throws java.nio.BufferOverflowException if the destination array cannot hold the content of this array
+   */
+  default ByteNdArray read(byte[] dst, int offset) {
+    return read(DataBuffers.wrap(dst, false).position(offset));
+  }
+
+  /**
+   * Writes the content of this N-dimensional array from the source byte array.
+   *
+   * <p>The size of the source array must be equal or greater to the {@link #size()} of this array,
+   * or an exception is thrown. After the copy, content of the both arrays can be altered
+   * independently, without affecting each other.
+   *
+   * @param src the source array
+   * @return this array
+   * @throws java.nio.BufferUnderflowException if the size of the source array is less than the size of this array
+   */
+  default ByteNdArray write(byte[] src) {
+    return write(DataBuffers.wrap(src, false));
+  }
+
+  /**
+   * Writes the content of this N-dimensional array from the source byte array.
+   *
+   * <p>{@code src.length - offset} must be equal or greater to the {@link #size()} of this array,
+   * or an exception is thrown. After the copy, content of the both arrays can be altered
+   * independently, without affecting each other.
+   *
+   * @param src the source array
+   * @param offset the index of the first byte to read from the source array
+   * @return this array
+   * @throws java.nio.BufferUnderflowException if the size of the source array is less than the size of this array
+   */
+  default ByteNdArray write(byte[] src, int offset) {
+    return write(DataBuffers.wrap(src, false).position(offset));
+  }
+
   @Override
   ByteNdArray at(long... indices);
-  
+
   @Override
   ByteNdArray slice(Index... indices);
 
@@ -45,8 +110,4 @@ public interface ByteNdArray extends NdArray<Byte> {
 
   @Override
   ByteNdArray write(DataBuffer<Byte> src);
-
-  default void read(byte[] dst) { read(DataBuffers.wrap(dst, false)); }
-  
-  default void write(byte[] src) { write(DataBuffers.wrap(src, false)); }
 }

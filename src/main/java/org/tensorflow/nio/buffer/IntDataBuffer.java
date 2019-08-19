@@ -49,7 +49,7 @@ public interface IntDataBuffer extends DataBuffer<Integer> {
    * 
    * @param dst the array into which values are to be written
    * @return this buffer
-   * @throws BufferUnderflowException if there are fewer than length valus remaining in this buffer
+   * @throws BufferUnderflowException if there are fewer than length values remaining in this buffer
    */
   default IntDataBuffer get(int[] dst) { return get(dst, 0, dst.length); }
   
@@ -67,7 +67,7 @@ public interface IntDataBuffer extends DataBuffer<Integer> {
    * @param offset the offset within the array of the first value to be written; must be non-negative and no larger than {@code dst.length}
    * @param length the maximum number of values to be written to the given array; must be non-negative and no larger than {@code dst.length - offset}
    * @return this buffer
-   * @throws BufferUnderflowException if there are fewer than length valus remaining in this buffer
+   * @throws BufferUnderflowException if there are fewer than length values remaining in this buffer
    * @throws IndexOutOfBoundsException if the preconditions on the offset and length parameters do not hold
    */
   IntDataBuffer get(int[] dst, int offset, int length);
