@@ -19,7 +19,6 @@ package org.tensorflow.nio.nd.dense;
 import org.tensorflow.nio.buffer.DoubleDataBuffer;
 import org.tensorflow.nio.nd.DoubleNdArray;
 import org.tensorflow.nio.nd.Shape;
-import org.tensorflow.nio.nd.index.Index;
 
 public class DoubleDenseNdArray extends AbstractDenseNdArray<Double, DoubleNdArray> implements DoubleNdArray {
 

@@ -14,30 +14,25 @@
  limitations under the License.
  =======================================================================
  */
-package org.tensorflow.nio.nd.dimension;
+package org.tensorflow.nio.nd.impl.dimension;
 
-abstract class AbstractDimension implements Dimension {
-  
-  abstract long stride();
+import org.tensorflow.nio.nd.index.Index;
 
-  /**
-   * Dimensions are known to be equal if they have the same number of elements
-   */
-  @Override public int hashCode() {
-    return (int)numElements();
+public final class Dimensions {
+
+  public static Dimension unknown() {
+    return UnknownDimension.INSTANCE;
   }
 
-  /**
-   * Dimensions are known to be equal if they have the same number of elements
-   */
-  @Override public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj instanceof Dimension) {
-      Dimension otherDimension = (Dimension) obj;
-      return numElements() == otherDimension.numElements();
-    }
-    return false;
+  public static Dimension axis(long numElements, long elementSize) {
+    return new Axis(numElements, elementSize);
+  }
+  
+  public static Dimension coord(long index, Dimension originalDimension) {
+    return new Coordinate(index, (AbstractDimension)originalDimension);
+  }
+  
+  public static Dimension indexed(Dimension originalDimension, Index index) {
+    return new IndexedDimension((AbstractDimension)originalDimension, index);
   }
 }

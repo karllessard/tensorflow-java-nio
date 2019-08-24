@@ -19,7 +19,6 @@ package org.tensorflow.nio.nd.dense;
 import org.tensorflow.nio.buffer.ByteDataBuffer;
 import org.tensorflow.nio.nd.ByteNdArray;
 import org.tensorflow.nio.nd.Shape;
-import org.tensorflow.nio.nd.index.Index;
 
 public class ByteDenseNdArray extends AbstractDenseNdArray<Byte, ByteNdArray> implements ByteNdArray {
 

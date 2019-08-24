@@ -14,45 +14,43 @@
  limitations under the License.
  =======================================================================
  */
-package org.tensorflow.nio.nd.dimension;
+package org.tensorflow.nio.nd.impl.dimension;
 
-final class Coordinate extends AbstractDimension {
+final class Axis extends AbstractDimension {
   
-  Coordinate(long index, AbstractDimension targetDimension) {
-    this.index = index;
-    this.stride = targetDimension.stride();
+  Axis(long numElements, long stride) {
+    this.numElements = numElements;
+    this.stride = stride;
   }
   
   @Override
   public long numElements() {
-    return 0;
+    return numElements;
   }
   
   @Override
-  public long positionOf(long elementIndex) {
-    throw new IndexOutOfBoundsException();
-  }
-
-  @Override
-  public long position() {
-    return index * stride;
+  public long positionOf(long coord) {
+    if (coord >= numElements) {
+      throw new IndexOutOfBoundsException();
+    }
+    return stride * coord;
   }
 
   @Override
   public boolean isSegmented() {
-    return true;  // a coordinate is a segment to a dimension
+    return false;  // all axis are continuous
   }
 
   @Override
   long stride() {
     return stride;
   }
-
+  
   @Override
   public String toString() {
-    return "(" + index + ")";
+    return String.valueOf(numElements);
   }
-  
-  private final long index;
+
+  private final long numElements;
   private final long stride;
 }

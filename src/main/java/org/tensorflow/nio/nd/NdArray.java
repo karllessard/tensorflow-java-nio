@@ -17,7 +17,6 @@
 package org.tensorflow.nio.nd;
 
 import org.tensorflow.nio.buffer.DataBuffer;
-import org.tensorflow.nio.buffer.DataBuffers;
 import org.tensorflow.nio.nd.index.Index;
 import org.tensorflow.nio.nd.iterator.ValueIterable;
 import org.tensorflow.nio.nd.iterator.ValueIterator;
@@ -133,6 +132,10 @@ public interface NdArray<T> {
    *
    * <p>Any changes applied to the returned elements affect the data of this array as well, as there
    * is no copy involved.
+   *
+   * <p>Note that invoking this method is equivalent and more efficient to slice this array at
+   * on single element for each indexed dimension, i.e.
+   * {@code array.at(x, y, z) == array.slice(at(x), at(y), at(z))}
    *
    * @param indices coordinates of the element to access, none will return this array
    * @return the element at this index

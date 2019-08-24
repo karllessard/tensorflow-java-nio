@@ -34,7 +34,7 @@ public final class Indices {
   }
   
   public static Index all() {
-    return new All();
+    return All.INSTANCE;
   }
   
   public static Index seq(long... indices) {
@@ -52,11 +52,11 @@ public final class Indices {
   }
   
   public static Index even() {
-    return new Even();
+    return Even.INSTANCE;
   }
 
   public static Index odd() {
-    return new Odd();
+    return Odd.INSTANCE;
   }
   
   public static Index step(long stepLength) {
@@ -73,5 +73,9 @@ public final class Indices {
   
   public static Index range(long start, long end) {
     return new Range(start, end);
+  }
+
+  public static Index flip() {
+    return Flip.INSTANCE;
   }
 }

@@ -18,10 +18,9 @@
 package org.tensorflow.nio.nd;
 
 import java.util.Arrays;
-import java.util.Iterator;
 
-import org.tensorflow.nio.nd.dimension.Dimension;
-import org.tensorflow.nio.nd.dimension.Dimensions;
+import org.tensorflow.nio.nd.impl.dimension.Dimension;
+import org.tensorflow.nio.nd.impl.dimension.Dimensions;
 import org.tensorflow.nio.nd.index.Index;
 
 /** The possibly partially known shape of a tensor produced by an operation. */
@@ -74,7 +73,7 @@ public final class Shape {
     }
     Dimension[] mappedDimensions = Arrays.copyOf(dimensions, dimensions.length);
     for (int i = 0; i < indices.length; ++i) {
-      mappedDimensions[i] = indices[i].map(dimensions[i]);
+      mappedDimensions[i] = indices[i].apply(dimensions[i]);
     }
     return new Shape(mappedDimensions);
   }

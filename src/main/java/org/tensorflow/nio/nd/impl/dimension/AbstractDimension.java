@@ -14,43 +14,30 @@
  limitations under the License.
  =======================================================================
  */
-package org.tensorflow.nio.nd.dimension;
+package org.tensorflow.nio.nd.impl.dimension;
 
-import org.tensorflow.nio.nd.Shape;
-
-final class UnknownDimension extends AbstractDimension {
-
-  @Override
-  public long numElements() {
-    return Shape.UNKNOWN_SIZE;
-  }
+abstract class AbstractDimension implements Dimension {
   
-  @Override
-  public long positionOf(long elementIndex) {
-    return elementIndex;
-  }
-  
-  @Override
-  public boolean isSegmented() {
-    return false;
-  }
+  abstract long stride();
 
-  @Override
-  long stride() {
-    return 0L;
-  }
-
-  @Override
-  public String toString() {
-    return "Unknown";
-  }
-
+  /**
+   * Dimensions are known to be equal if they have the same number of elements
+   */
   @Override public int hashCode() {
-    return System.identityHashCode(this); // All unknown dimensions are distinct
+    return (int)numElements();
   }
 
-  @Override
-  public boolean equals(Object obj) {
-    return false; // All unknown dimensions are distinct
+  /**
+   * Dimensions are known to be equal if they have the same number of elements
+   */
+  @Override public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj instanceof Dimension) {
+      Dimension otherDimension = (Dimension) obj;
+      return numElements() == otherDimension.numElements();
+    }
+    return false;
   }
 }

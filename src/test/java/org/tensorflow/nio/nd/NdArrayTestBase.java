@@ -188,6 +188,12 @@ public abstract class NdArrayTestBase<T> {
     assertEquals(vector10_even_odd.shape(), shape(1));
     assertEquals(val102, vector10_even_odd.get(0));
 
+    // Vector (1,0,[flip])
+    NdArray<T> vector10_flip = matrix3d.slice(at(1), at(0), flip());
+    assertEquals(vector10_flip.shape(), shape(5));
+    assertEquals(val100, vector10_flip.get(4));
+    assertEquals(val101, vector10_flip.get(3));
+
     // Vector (1,0,[from 1]) from vector (1,0,*)
     NdArray<T> vector10_1toX = vector10X.slice(from(1));
     assertEquals(vector10_1toX.shape(), shape(4));

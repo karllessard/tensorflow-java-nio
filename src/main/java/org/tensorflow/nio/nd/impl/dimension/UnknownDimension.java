@@ -1,12 +1,12 @@
 /*
  Copyright 2019 The TensorFlow Authors. All Rights Reserved.
- 
+
  Licensed under the Apache License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
- 
+
      http://www.apache.org/licenses/LICENSE-2.0
- 
+
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,46 +14,45 @@
  limitations under the License.
  =======================================================================
  */
-package org.tensorflow.nio.nd.dimension;
+package org.tensorflow.nio.nd.impl.dimension;
 
-import org.tensorflow.nio.nd.index.Index;
+import org.tensorflow.nio.nd.Shape;
 
-final class IndexedDimension extends AbstractDimension {
-  
-  IndexedDimension(Index index, AbstractDimension dim) {
-    this.index = index;
-    this.dimension = dim;
-  }
-  
+final class UnknownDimension extends AbstractDimension {
+
+  static final UnknownDimension INSTANCE = new UnknownDimension();
+
   @Override
   public long numElements() {
-    return index.numElements(dimension);
+    return Shape.UNKNOWN_SIZE;
   }
   
   @Override
-  public long positionOf(long elementIndex) {
-    if (elementIndex >= numElements()) {
-      throw new IndexOutOfBoundsException();
-    }
-    return dimension.positionOf(index.mapPosition(elementIndex, dimension));
+  public long positionOf(long coord) {
+    return coord;
   }
   
   @Override
   public boolean isSegmented() {
-    // TODO for now we consider all indexed dimensions as segmented but might depend on the actual index
-    return true;
+    return false;
   }
 
   @Override
   long stride() {
-    return dimension.stride();
+    return 0L;
   }
 
   @Override
   public String toString() {
-    return String.valueOf(numElements());
+    return "Unknown";
   }
 
-  private final Index index;
-  private final AbstractDimension dimension;
+  @Override public int hashCode() {
+    return System.identityHashCode(this); // All unknown dimensions are distinct
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    return false; // All unknown dimensions are distinct
+  }
 }

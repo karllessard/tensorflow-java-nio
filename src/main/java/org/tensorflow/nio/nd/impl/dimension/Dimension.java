@@ -14,13 +14,13 @@
  limitations under the License.
  =======================================================================
  */
-package org.tensorflow.nio.nd.dimension;
+package org.tensorflow.nio.nd.impl.dimension;
 
 public interface Dimension {
   
   long numElements();
   
-  long positionOf(long elementIndex);
+  long positionOf(long coord);
   
   default long position() { return positionOf(0); }
   

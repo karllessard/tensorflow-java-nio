@@ -16,17 +16,30 @@
  */
 package org.tensorflow.nio.nd.index;
 
-import org.tensorflow.nio.nd.dimension.Dimension;
+import org.tensorflow.nio.nd.impl.dimension.Dimension;
+import org.tensorflow.nio.nd.impl.dimension.Dimensions;
 
+/**
+ * An index that returns only elements found at an even position in the
+ * original dimension.
+ *
+ * <p>For example, given a vector with {@code n} elements on the {@code x} axis, and n is even,
+ * {@code even()} returns x<sub>0</sub>, x<sub>2</sub>, ..., x<sub>n-2</sub>
+ */
 class Even implements Index {
-  
+
+  static final Even INSTANCE = new Even();
+
   @Override
   public long numElements(Dimension dim) {
     return (dim.numElements() >> 1) + 1;
   }
 
   @Override
-  public long mapPosition(long elementIndex, Dimension dim) {
-    return elementIndex << 1;
+  public long mapCoordinate(long coordinate, Dimension dim) {
+    return coordinate << 1;
+  }
+
+  private Even() {
   }
 }

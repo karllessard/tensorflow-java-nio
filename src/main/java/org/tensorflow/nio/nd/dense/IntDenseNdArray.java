@@ -19,7 +19,6 @@ package org.tensorflow.nio.nd.dense;
 import org.tensorflow.nio.buffer.IntDataBuffer;
 import org.tensorflow.nio.nd.IntNdArray;
 import org.tensorflow.nio.nd.Shape;
-import org.tensorflow.nio.nd.index.Index;
 
 public class IntDenseNdArray extends AbstractDenseNdArray<Integer, IntNdArray> implements IntNdArray {
 

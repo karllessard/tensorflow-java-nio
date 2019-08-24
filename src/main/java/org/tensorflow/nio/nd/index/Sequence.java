@@ -17,13 +17,16 @@
 package org.tensorflow.nio.nd.index;
 
 import org.tensorflow.nio.nd.NdArray;
-import org.tensorflow.nio.nd.dimension.Dimension;
+import org.tensorflow.nio.nd.impl.dimension.Dimension;
+import org.tensorflow.nio.nd.impl.dimension.Dimensions;
 
+/**
+ * An index that returns only specific elements on a given dimension.
+ *
+ * <p>For example, given a vector with {@code n} elements on the {@code x} axis, and {@code n > 10},
+ * {@code seq(8, 0, 3)} returns x<sub>8</sub>, x<sub>0</sub>, x<sub>3</sub>
+ */
 class Sequence implements Index {
-
-  public Sequence(NdArray<? extends Number> values) {
-    this.values = values;
-  }
 
   @Override
   public long numElements(Dimension dim) {
@@ -31,9 +34,13 @@ class Sequence implements Index {
   }
 
   @Override
-  public long mapPosition(long elementIndex, Dimension dim) {
-    return values.get(elementIndex).longValue();
+  public long mapCoordinate(long coordinate, Dimension dim) {
+    return values.get(coordinate).longValue();
   }
-  
+
+  Sequence(NdArray<? extends Number> values) {
+    this.values = values;
+  }
+
   private NdArray<? extends Number> values;
 }

@@ -17,7 +17,7 @@
 package org.tensorflow.nio.nd.dense;
 
 import org.tensorflow.nio.buffer.DataBuffer;
-import org.tensorflow.nio.nd.dimension.Dimension;
+import org.tensorflow.nio.nd.impl.dimension.Dimension;
 
 class BulkDataTransfer<T> {
 

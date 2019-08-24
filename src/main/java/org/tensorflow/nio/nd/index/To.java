@@ -16,13 +16,17 @@
  */
 package org.tensorflow.nio.nd.index;
 
-import org.tensorflow.nio.nd.dimension.Dimension;
+import org.tensorflow.nio.nd.impl.dimension.Dimension;
+import org.tensorflow.nio.nd.impl.dimension.Dimensions;
 
+/**
+ * An index that returns only elements on a given dimension up to a
+ * specific coordinate.
+ *
+ * <p>For example, given a vector with {@code n} elements on the {@code x} axis, and {@code n > k},
+ * {@code to(k)} returns x<sub>0</sub>, x<sub>1</sub>, ..., x<sub>k</sub>
+ */
 class To implements Index {
-  
-  public To(long end) {
-    this.end = end;
-  }
 
   @Override
   public long numElements(Dimension dim) {
@@ -30,9 +34,13 @@ class To implements Index {
   }
 
   @Override
-  public long mapPosition(long elementIndex, Dimension dim) {
-    return elementIndex;
+  public long mapCoordinate(long coordinate, Dimension dim) {
+    return coordinate;
   }
-  
+
+  To(long end) {
+    this.end = end;
+  }
+
   private long end;
 }

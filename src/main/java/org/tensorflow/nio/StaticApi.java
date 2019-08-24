@@ -187,4 +187,8 @@ public interface StaticApi {
   static Index range(long start, long end) {
     return Indices.range(start, end);
   }
+
+  static Index flip() {
+    return Indices.flip();
+  }
 }

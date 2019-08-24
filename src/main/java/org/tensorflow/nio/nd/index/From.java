@@ -16,13 +16,17 @@
  */
 package org.tensorflow.nio.nd.index;
 
-import org.tensorflow.nio.nd.dimension.Dimension;
+import org.tensorflow.nio.nd.impl.dimension.Dimension;
+import org.tensorflow.nio.nd.impl.dimension.Dimensions;
 
+/**
+ * An index that returns only elements on a given dimension starting at a
+ * specific coordinate.
+ *
+ * <p>For example, given a vector with {@code n} elements on the {@code x} axis, and {@code n > k},
+ * {@code from(k)} returns x<sub>k</sub>, x<sub>k+1</sub>, ..., x<sub>n-1</sub>
+ */
 class From implements Index {
-  
-  public From(long start) {
-    this.start = start;
-  }
 
   @Override
   public long numElements(Dimension dim) {
@@ -30,9 +34,13 @@ class From implements Index {
   }
 
   @Override
-  public long mapPosition(long elementIndex, Dimension dim) {
-    return start + elementIndex;
+  public long mapCoordinate(long coordinate, Dimension dim) {
+    return start + coordinate;
   }
-  
+
+  From(long start) {
+    this.start = start;
+  }
+
   private long start;
 }

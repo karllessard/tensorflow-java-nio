@@ -19,7 +19,6 @@ package org.tensorflow.nio.nd.dense;
 import org.tensorflow.nio.buffer.LongDataBuffer;
 import org.tensorflow.nio.nd.LongNdArray;
 import org.tensorflow.nio.nd.Shape;
-import org.tensorflow.nio.nd.index.Index;
 
 public class LongDenseNdArray extends AbstractDenseNdArray<Long, LongNdArray> implements LongNdArray {
 

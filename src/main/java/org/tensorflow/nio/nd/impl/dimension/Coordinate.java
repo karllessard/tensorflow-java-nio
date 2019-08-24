@@ -14,38 +14,45 @@
  limitations under the License.
  =======================================================================
  */
-package org.tensorflow.nio.nd.index;
+package org.tensorflow.nio.nd.impl.dimension;
 
-import org.tensorflow.nio.nd.impl.dimension.Dimension;
-
-/**
- * An index that returns all elements of a dimension in the original order.
- *
- * <p>Applying this index to a given dimension will return the original dimension
- * directly.
- *
- * <p>For example, given a vector with {@code n} elements, {@code all()} returns
- * x<sub>0</sub>, x<sub>1</sub>, ..., x<sub>n-1</sub>
- */
-class All implements Index {
-
-  static final All INSTANCE = new All();
-
+final class Coordinate extends AbstractDimension {
+  
+  Coordinate(long index, AbstractDimension targetDimension) {
+    this.index = index;
+    this.stride = targetDimension.stride();
+  }
+  
   @Override
-  public long numElements(Dimension dim) {
-    return dim.numElements();
+  public long numElements() {
+    return 0;
+  }
+  
+  @Override
+  public long positionOf(long coord) {
+    throw new IndexOutOfBoundsException();
   }
 
   @Override
-  public long mapCoordinate(long coordinate, Dimension dim) {
-    return coordinate;
+  public long position() {
+    return index * stride;
   }
 
   @Override
-  public Dimension apply(Dimension dim) {
-    return dim;
+  public boolean isSegmented() {
+    return true;  // a coordinate is a segment to a dimension
   }
 
-  private All() {
+  @Override
+  long stride() {
+    return stride;
   }
+
+  @Override
+  public String toString() {
+    return "(" + index + ")";
+  }
+  
+  private final long index;
+  private final long stride;
 }
