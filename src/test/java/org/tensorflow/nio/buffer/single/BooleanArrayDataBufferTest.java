@@ -21,7 +21,7 @@ import org.tensorflow.nio.buffer.DataBufferTestBase;
 import org.tensorflow.nio.buffer.single.ArrayDataBuffer;
 
 public class BooleanArrayDataBufferTest extends DataBufferTestBase<Boolean> {
-  
+
   @Override
   protected long maxCapacity() {
     return ArrayDataBuffer.MAX_CAPACITY;

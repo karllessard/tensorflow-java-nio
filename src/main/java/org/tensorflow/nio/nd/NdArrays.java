@@ -31,7 +31,7 @@ import org.tensorflow.nio.nd.dense.IntDenseNdArray;
 import org.tensorflow.nio.nd.dense.LongDenseNdArray;
 
 public final class NdArrays {
-  
+
   public static ByteNdArray ofBytes(Shape shape) {
     return wrap(DataBuffers.ofBytes(shape.size()), shape);
   }
@@ -47,7 +47,7 @@ public final class NdArrays {
   public static LongNdArray ofLongs(Shape shape) {
     return wrap(DataBuffers.ofLongs(shape.size()), shape);
   }
-  
+
   public static LongNdArray wrap(long[] values, Shape shape) {
     return wrap(DataBuffers.wrap(values, false), shape);
   }

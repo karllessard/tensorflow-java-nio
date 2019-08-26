@@ -36,7 +36,7 @@ public abstract class LongDataBufferTestBase extends DataBufferTestBase<Long> {
   @Test
   public void writeAndReadFromArray() {
     LongDataBuffer buffer = allocate(10L);
-    long[] oneToFive = new long[] { valueOf(1L), valueOf(2L), valueOf(3L), valueOf(4L), valueOf(5L) };
+    long[] oneToFive = new long[]{valueOf(1L), valueOf(2L), valueOf(3L), valueOf(4L), valueOf(5L)};
 
     buffer.put(oneToFive);
     assertEquals(valueOf(2L), buffer.get(1));
@@ -61,10 +61,10 @@ public abstract class LongDataBufferTestBase extends DataBufferTestBase<Long> {
 
     Arrays.fill(read, valueOf(0L));
     buffer.get(read, 1, 2);
-    assertEquals(valueOf(0L), (Long)read[0]);
-    assertEquals(valueOf(3L), (Long)read[1]);
-    assertEquals(valueOf(4L), (Long)read[2]);
-    assertEquals(valueOf(0L), (Long)read[3]);
+    assertEquals(valueOf(0L), (Long) read[0]);
+    assertEquals(valueOf(3L), (Long) read[1]);
+    assertEquals(valueOf(4L), (Long) read[2]);
+    assertEquals(valueOf(0L), (Long) read[3]);
     assertEquals(4L, buffer.position());
   }
 }

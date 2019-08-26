@@ -23,7 +23,9 @@ import org.tensorflow.nio.nd.impl.dimension.Dimension;
 import org.tensorflow.nio.nd.impl.dimension.Dimensions;
 import org.tensorflow.nio.nd.index.Index;
 
-/** The possibly partially known shape of a tensor produced by an operation. */
+/**
+ * The possibly partially known shape of a tensor produced by an operation.
+ */
 public final class Shape {
 
   public static final long UNKNOWN_SIZE = -1L;
@@ -66,7 +68,7 @@ public final class Shape {
     }
     return new Shape(dimensions);
   }
-  
+
   public Shape mapTo(Index[] indices) {
     if (indices.length > dimensions.length) {
       throw new ArrayIndexOutOfBoundsException();
@@ -82,16 +84,16 @@ public final class Shape {
    * Number of dimensions represented by this shape.
    *
    * @return -1 if the number of dimensions is unknown, 0 if the shape represents a scalar, 1 for a
-   *     vector, 2 for a matrix etc.
+   * vector, 2 for a matrix etc.
    */
   public int numDimensions() {
     return dimensions.length;
   }
-  
+
   public long numElements(int i) {
     return dimensions[i].numElements();
   }
-  
+
   public Dimension dimension(int i) {
     return dimensions[i];
   }
@@ -99,7 +101,7 @@ public final class Shape {
   public boolean hasUnknownDimension() {
     return Arrays.stream(dimensions).anyMatch(d -> d.numElements() == UNKNOWN_SIZE);
   }
-  
+
   public long size() {
     return size;
   }
@@ -124,13 +126,15 @@ public final class Shape {
     }
     // Shapes are equivalent if all of their dimensions are equals
     if (obj instanceof Shape) {
-      Shape otherShape = (Shape)obj;
+      Shape otherShape = (Shape) obj;
       return Arrays.equals(dimensions, otherShape.dimensions);
     }
     return false;
   }
 
-  /** Succinct description of the shape meant for debugging. */
+  /**
+   * Succinct description of the shape meant for debugging.
+   */
   @Override
   public String toString() {
     return Arrays.toString(dimensions);
@@ -146,7 +150,7 @@ public final class Shape {
 
   private static long computeShapeSize(Dimension[] dimensions) {
     long size = 1L;
-    for (Dimension dimension: dimensions) {
+    for (Dimension dimension : dimensions) {
       long dimensionSize = dimension.numElements();
       if (dimensionSize > 0) {
         size *= dimensionSize;

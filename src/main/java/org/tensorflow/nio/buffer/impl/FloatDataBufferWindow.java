@@ -18,27 +18,30 @@ package org.tensorflow.nio.buffer.impl;
 
 import org.tensorflow.nio.buffer.FloatDataBuffer;
 
-public class FloatDataBufferWindow extends DataBufferWindow<Float, FloatDataBuffer> implements FloatDataBuffer {
+public class FloatDataBufferWindow extends DataBufferWindow<Float, FloatDataBuffer> implements
+    FloatDataBuffer {
 
-    public FloatDataBufferWindow(FloatDataBuffer delegate, long start, long end) {
-        super(delegate, start, end);
-    }
+  public FloatDataBufferWindow(FloatDataBuffer delegate, long start, long end) {
+    super(delegate, start, end);
+  }
 
-    @Override public FloatDataBuffer get(float[] dst, int offset, int length) {
-        return delegate.get(dst, offset, length);
-    }
+  @Override
+  public FloatDataBuffer get(float[] dst, int offset, int length) {
+    return delegate.get(dst, offset, length);
+  }
 
-    @Override public FloatDataBuffer put(float[] src, int offset, int length) {
-        return delegate.put(src, offset, length);
-    }
+  @Override
+  public FloatDataBuffer put(float[] src, int offset, int length) {
+    return delegate.put(src, offset, length);
+  }
 
-    @Override
-    public FloatDataBuffer duplicate() {
-        return new FloatDataBufferWindow(delegate.duplicate(), start, end);
-    }
+  @Override
+  public FloatDataBuffer duplicate() {
+    return new FloatDataBufferWindow(delegate.duplicate(), start, end);
+  }
 
-    @Override
-    public FloatDataBuffer slice() {
-        return new FloatDataBufferWindow(delegate.duplicate(), position(), limit());
-    }
+  @Override
+  public FloatDataBuffer slice() {
+    return new FloatDataBufferWindow(delegate.duplicate(), position(), limit());
+  }
 }

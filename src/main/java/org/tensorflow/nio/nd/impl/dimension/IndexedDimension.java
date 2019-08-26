@@ -24,7 +24,7 @@ final class IndexedDimension extends AbstractDimension {
   public long numElements() {
     return numElements;
   }
-  
+
   @Override
   public long positionOf(long coord) {
     if (coord >= numElements()) {
@@ -32,7 +32,7 @@ final class IndexedDimension extends AbstractDimension {
     }
     return originalDimension.positionOf(index.mapCoordinate(coord, originalDimension));
   }
-  
+
   @Override
   public boolean isSegmented() {
     // TODO for now we consider all indexed dimensions as segmented but might depend on the actual index

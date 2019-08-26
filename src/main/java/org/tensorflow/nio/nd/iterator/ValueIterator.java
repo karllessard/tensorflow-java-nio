@@ -19,6 +19,6 @@ package org.tensorflow.nio.nd.iterator;
 import java.util.Iterator;
 
 public interface ValueIterator<T> extends Iterator<T> {
-  
+
   void next(T value);
 }

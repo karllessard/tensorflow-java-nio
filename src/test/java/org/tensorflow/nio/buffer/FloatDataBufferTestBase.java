@@ -36,7 +36,8 @@ public abstract class FloatDataBufferTestBase extends DataBufferTestBase<Float> 
   @Test
   public void writeAndReadFromArray() {
     FloatDataBuffer buffer = allocate(10L);
-    float[] oneToFive = new float[] { valueOf(1L), valueOf(2L), valueOf(3L), valueOf(4L), valueOf(5L) };
+    float[] oneToFive = new float[]{valueOf(1L), valueOf(2L), valueOf(3L), valueOf(4L),
+        valueOf(5L)};
 
     buffer.put(oneToFive);
     assertEquals(valueOf(2L), buffer.get(1));
@@ -61,10 +62,10 @@ public abstract class FloatDataBufferTestBase extends DataBufferTestBase<Float> 
 
     Arrays.fill(read, valueOf(0L));
     buffer.get(read, 1, 2);
-    assertEquals(valueOf(0L), (Float)read[0]);
-    assertEquals(valueOf(3L), (Float)read[1]);
-    assertEquals(valueOf(4L), (Float)read[2]);
-    assertEquals(valueOf(0L), (Float)read[3]);
+    assertEquals(valueOf(0L), (Float) read[0]);
+    assertEquals(valueOf(3L), (Float) read[1]);
+    assertEquals(valueOf(4L), (Float) read[2]);
+    assertEquals(valueOf(0L), (Float) read[3]);
     assertEquals(4L, buffer.position());
   }
 }

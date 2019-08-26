@@ -21,32 +21,36 @@ import java.util.stream.DoubleStream;
 import org.tensorflow.nio.buffer.ByteDataBuffer;
 import org.tensorflow.nio.buffer.DoubleDataBuffer;
 
-public class DoubleDataBufferWindow extends DataBufferWindow<Double, DoubleDataBuffer> implements DoubleDataBuffer {
+public class DoubleDataBufferWindow extends DataBufferWindow<Double, DoubleDataBuffer> implements
+    DoubleDataBuffer {
 
-    public DoubleDataBufferWindow(DoubleDataBuffer delegate, long start, long end) {
-        super(delegate, start, end);
-    }
+  public DoubleDataBufferWindow(DoubleDataBuffer delegate, long start, long end) {
+    super(delegate, start, end);
+  }
 
-    @Override public DoubleStream doubleStream() {
-        // TODO
-        throw new UnsupportedOperationException();
-    }
+  @Override
+  public DoubleStream doubleStream() {
+    // TODO
+    throw new UnsupportedOperationException();
+  }
 
-    @Override public DoubleDataBuffer get(double[] dst, int offset, int length) {
-        return delegate.get(dst, offset, length);
-    }
+  @Override
+  public DoubleDataBuffer get(double[] dst, int offset, int length) {
+    return delegate.get(dst, offset, length);
+  }
 
-    @Override public DoubleDataBuffer put(double[] src, int offset, int length) {
-        return delegate.put(src, offset, length);
-    }
+  @Override
+  public DoubleDataBuffer put(double[] src, int offset, int length) {
+    return delegate.put(src, offset, length);
+  }
 
-    @Override
-    public DoubleDataBuffer duplicate() {
-        return new DoubleDataBufferWindow(delegate.duplicate(), start, end);
-    }
+  @Override
+  public DoubleDataBuffer duplicate() {
+    return new DoubleDataBufferWindow(delegate.duplicate(), start, end);
+  }
 
-    @Override
-    public DoubleDataBuffer slice() {
-        return new DoubleDataBufferWindow(delegate.duplicate(), position(), limit());
-    }
+  @Override
+  public DoubleDataBuffer slice() {
+    return new DoubleDataBufferWindow(delegate.duplicate(), position(), limit());
+  }
 }

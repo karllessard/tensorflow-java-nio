@@ -27,23 +27,23 @@ import java.nio.BufferUnderflowException;
 import org.junit.Test;
 
 abstract public class DataBufferTestBase<T> {
-  
+
   protected final boolean enableLargeBufferTests = System.getProperty("testLargeBuffers") != null;
-  
+
   protected abstract long maxCapacity();
-  
+
   protected abstract DataBuffer<T> allocate(long capacity);
 
   protected abstract T valueOf(Long val);
- 
+
   @Test
   public void capacities() {
     DataBuffer<T> buffer = allocate(10L);
     assertEquals(10L, buffer.capacity());
-    
+
     buffer = allocate(0L);
     assertEquals(0L, buffer.capacity());
-    
+
     try {
       allocate(-1L);
       fail();

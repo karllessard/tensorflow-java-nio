@@ -22,22 +22,22 @@ import org.tensorflow.nio.nd.IllegalRankException;
 import org.tensorflow.nio.nd.NdArray;
 
 public final class Iterators {
-  
+
   public static <T> Iterator<NdArray<T>> elementsOf(NdArray<T> array) {
     if (array.shape().numDimensions() == 0) {
       throw new IllegalRankException("Cannot iterate elements of a scalar");
     }
     return new ElementIterator<>(array);
   }
-  
+
   public static <T> ValueIterable<T> valuesOf(NdArray<T> array) {
     switch (array.shape().numDimensions()) {
-    case 0:
-      throw new IllegalRankException("Cannot iterate values of a scalar");
-    case 1:
-      return () -> new VectorValueIterator<>(array);
-    default:
-      return () -> new NdValueIterator<>(array);
+      case 0:
+        throw new IllegalRankException("Cannot iterate values of a scalar");
+      case 1:
+        return () -> new VectorValueIterator<>(array);
+      default:
+        return () -> new NdValueIterator<>(array);
     }
   }
 }

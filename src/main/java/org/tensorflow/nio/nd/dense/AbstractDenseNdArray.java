@@ -58,7 +58,7 @@ public abstract class AbstractDenseNdArray<T, U extends NdArray<T>> extends Abst
   @Override
   public U set(T value, long... indices) {
     buffer().put(position(indices, true), value);
-    return (U)this;
+    return (U) this;
   }
 
   @Override
@@ -83,7 +83,7 @@ public abstract class AbstractDenseNdArray<T, U extends NdArray<T>> extends Abst
     } else {
       slowRead(dst);
     }
-    return (U)this;
+    return (U) this;
   }
 
   @Override
@@ -92,11 +92,12 @@ public abstract class AbstractDenseNdArray<T, U extends NdArray<T>> extends Abst
       throw new BufferUnderflowException();
     }
     if (isBulkCopyAvailable()) {
-      BulkDataTransfer.create(this).execute((buffer, size) -> buffer.put(src.limit(src.position() + size)));
+      BulkDataTransfer.create(this)
+          .execute((buffer, size) -> buffer.put(src.limit(src.position() + size)));
     } else {
       slowWrite(src);
     }
-    return (U)this;
+    return (U) this;
   }
 
   AbstractDenseNdArray(Shape shape) {
@@ -126,12 +127,13 @@ public abstract class AbstractDenseNdArray<T, U extends NdArray<T>> extends Abst
   }
 
   /**
-   * Check if we copy this array data in bulk. Bulk copy is only possible for array of 1-dimension or more and that
-   * the last dimension is not segmented (therefore linear in memory).
+   * Check if we copy this array data in bulk. Bulk copy is only possible for array of 1-dimension
+   * or more and that the last dimension is not segmented (therefore linear in memory).
    *
    * @return true if bulk copy is possible
    */
   private boolean isBulkCopyAvailable() {
-    return shape().numDimensions() > 0 && !shape().dimension(shape().numDimensions() - 1).isSegmented();
+    return shape().numDimensions() > 0 && !shape().dimension(shape().numDimensions() - 1)
+        .isSegmented();
   }
 }

@@ -23,9 +23,10 @@ class BulkDataTransfer<T> {
 
   @FunctionalInterface
   interface BulkCopy<T> {
+
     void invoke(DataBuffer<T> arrayBuffer, long bulkCopySize);
   }
-  
+
   static <T> BulkDataTransfer<T> create(AbstractDenseNdArray<T, ?> array) {
     int bulkCopyDimensionIdx = -1;
     long bulkCopySize = 1L;
@@ -41,11 +42,12 @@ class BulkDataTransfer<T> {
       bulkCopySize *= dim.numElements();
     }
     if (bulkCopyDimensionIdx < 0) {
-      throw new IllegalArgumentException("This array cannot be copied by bulk, since its last dimension is segmented");
+      throw new IllegalArgumentException(
+          "This array cannot be copied by bulk, since its last dimension is segmented");
     }
     return new BulkDataTransfer<>(array, bulkCopyDimensionIdx, bulkCopySize);
   }
-  
+
   void execute(BulkCopy<T> bulkCopy) {
     execute(bulkCopy, array, 0);
   }
@@ -54,7 +56,8 @@ class BulkDataTransfer<T> {
   private final int bulkCopyDimensionIdx;  // The first dimension of this array that can be copied in bulk
   private final long bulkCopySize;  // The number of values that can be copied in a single bulk copy
 
-  private BulkDataTransfer(AbstractDenseNdArray<T, ?> array, int bulkCopyDimensionIdx, long bulkCopySize) {
+  private BulkDataTransfer(AbstractDenseNdArray<T, ?> array, int bulkCopyDimensionIdx,
+      long bulkCopySize) {
     this.array = array;
     this.bulkCopyDimensionIdx = bulkCopyDimensionIdx;
     this.bulkCopySize = bulkCopySize;
@@ -64,7 +67,8 @@ class BulkDataTransfer<T> {
     if (dimensionIdx == bulkCopyDimensionIdx) {
       bulkCopy.invoke(element.buffer().duplicate(), bulkCopySize);
     } else {
-      element.childElements().forEach(e -> execute(bulkCopy, (AbstractDenseNdArray<T, ?>)e, dimensionIdx + 1));
+      element.childElements()
+          .forEach(e -> execute(bulkCopy, (AbstractDenseNdArray<T, ?>) e, dimensionIdx + 1));
     }
   }
 }

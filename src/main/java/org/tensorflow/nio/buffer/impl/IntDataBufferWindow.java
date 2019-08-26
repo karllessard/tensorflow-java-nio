@@ -20,32 +20,36 @@ import java.util.stream.IntStream;
 
 import org.tensorflow.nio.buffer.IntDataBuffer;
 
-public class IntDataBufferWindow extends DataBufferWindow<Integer, IntDataBuffer> implements IntDataBuffer {
+public class IntDataBufferWindow extends DataBufferWindow<Integer, IntDataBuffer> implements
+    IntDataBuffer {
 
-    public IntDataBufferWindow(IntDataBuffer delegate, long start, long end) {
-        super(delegate, start, end);
-    }
+  public IntDataBufferWindow(IntDataBuffer delegate, long start, long end) {
+    super(delegate, start, end);
+  }
 
-    @Override public IntStream intStream() {
-        // TODO
-        throw new UnsupportedOperationException();
-    }
+  @Override
+  public IntStream intStream() {
+    // TODO
+    throw new UnsupportedOperationException();
+  }
 
-    @Override public IntDataBuffer get(int[] dst, int offset, int length) {
-        return delegate.get(dst, offset, length);
-    }
+  @Override
+  public IntDataBuffer get(int[] dst, int offset, int length) {
+    return delegate.get(dst, offset, length);
+  }
 
-    @Override public IntDataBuffer put(int[] src, int offset, int length) {
-        return delegate.put(src, offset, length);
-    }
+  @Override
+  public IntDataBuffer put(int[] src, int offset, int length) {
+    return delegate.put(src, offset, length);
+  }
 
-    @Override
-    public IntDataBuffer duplicate() {
-        return new IntDataBufferWindow(delegate.duplicate(), start, end);
-    }
+  @Override
+  public IntDataBuffer duplicate() {
+    return new IntDataBufferWindow(delegate.duplicate(), start, end);
+  }
 
-    @Override
-    public IntDataBuffer slice() {
-        return new IntDataBufferWindow(delegate.duplicate(), position(), limit());
-    }
+  @Override
+  public IntDataBuffer slice() {
+    return new IntDataBufferWindow(delegate.duplicate(), position(), limit());
+  }
 }

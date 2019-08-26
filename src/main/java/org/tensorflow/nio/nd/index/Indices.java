@@ -21,7 +21,7 @@ import org.tensorflow.nio.nd.NdArrays;
 import org.tensorflow.nio.nd.Shape;
 
 public final class Indices {
-  
+
   public static Index at(long index) {
     return new At(index);
   }
@@ -32,25 +32,25 @@ public final class Indices {
     }
     return new At(index.get().longValue());
   }
-  
+
   public static Index all() {
     return All.INSTANCE;
   }
-  
+
   public static Index seq(long... indices) {
     if (indices == null) {
       throw new IllegalArgumentException();
     }
     return new Sequence(NdArrays.wrap(indices, Shape.create(indices.length)));
   }
-  
+
   public static Index elem(NdArray<? extends Number> indices) {
     if (indices.shape().numDimensions() != 1) {
       throw new IllegalArgumentException("Only vectors are accepted as an element index");
     }
     return new Sequence(indices);
   }
-  
+
   public static Index even() {
     return Even.INSTANCE;
   }
@@ -58,11 +58,11 @@ public final class Indices {
   public static Index odd() {
     return Odd.INSTANCE;
   }
-  
+
   public static Index step(long stepLength) {
     return new Step(stepLength);
   }
-  
+
   public static Index from(long start) {
     return new From(start);
   }
@@ -70,7 +70,7 @@ public final class Indices {
   public static Index to(long end) {
     return new To(end);
   }
-  
+
   public static Index range(long start, long end) {
     return new Range(start, end);
   }

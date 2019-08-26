@@ -36,7 +36,8 @@ public abstract class DoubleDataBufferTestBase extends DataBufferTestBase<Double
   @Test
   public void writeAndReadFromArray() {
     DoubleDataBuffer buffer = allocate(10L);
-    double[] oneToFive = new double[] { valueOf(1L), valueOf(2L), valueOf(3L), valueOf(4L), valueOf(5L) };
+    double[] oneToFive = new double[]{valueOf(1L), valueOf(2L), valueOf(3L), valueOf(4L),
+        valueOf(5L)};
 
     buffer.put(oneToFive);
     assertEquals(valueOf(2L), buffer.get(1));
@@ -61,10 +62,10 @@ public abstract class DoubleDataBufferTestBase extends DataBufferTestBase<Double
 
     Arrays.fill(read, valueOf(0L));
     buffer.get(read, 1, 2);
-    assertEquals(valueOf(0L), (Double)read[0]);
-    assertEquals(valueOf(3L), (Double)read[1]);
-    assertEquals(valueOf(4L), (Double)read[2]);
-    assertEquals(valueOf(0L), (Double)read[3]);
+    assertEquals(valueOf(0L), (Double) read[0]);
+    assertEquals(valueOf(3L), (Double) read[1]);
+    assertEquals(valueOf(4L), (Double) read[2]);
+    assertEquals(valueOf(0L), (Double) read[3]);
     assertEquals(4L, buffer.position());
   }
 }

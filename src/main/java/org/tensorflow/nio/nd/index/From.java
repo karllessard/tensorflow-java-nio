@@ -20,8 +20,7 @@ import org.tensorflow.nio.nd.impl.dimension.Dimension;
 import org.tensorflow.nio.nd.impl.dimension.Dimensions;
 
 /**
- * An index that returns only elements on a given dimension starting at a
- * specific coordinate.
+ * An index that returns only elements on a given dimension starting at a specific coordinate.
  *
  * <p>For example, given a vector with {@code n} elements on the {@code x} axis, and {@code n > k},
  * {@code from(k)} returns x<sub>k</sub>, x<sub>k+1</sub>, ..., x<sub>n-1</sub>

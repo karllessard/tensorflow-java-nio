@@ -20,7 +20,7 @@ import org.tensorflow.nio.buffer.LongDataBuffer;
 import org.tensorflow.nio.buffer.LongDataBufferTestBase;
 
 public class LongJdkDataBufferTest extends LongDataBufferTestBase {
-  
+
   @Override
   protected long maxCapacity() {
     return LongJdkDataBuffer.MAX_CAPACITY;

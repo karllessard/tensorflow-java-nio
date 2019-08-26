@@ -26,8 +26,8 @@ import org.tensorflow.nio.nd.impl.dimension.Dimensions;
  * single element and therefore is excluded from the computation of the rank.
  *
  * <p>For example, given a 3D matrix on the axis [x, y, z], if
- * {@code matrix.slice(all(), at(0), at(0)}, then the rank of the returned slice is 1 and its
- * number of elements is {@code x.numElements()}
+ * {@code matrix.slice(all(), at(0), at(0)}, then the rank of the returned slice is 1 and its number
+ * of elements is {@code x.numElements()}
  */
 class At implements Index {
 

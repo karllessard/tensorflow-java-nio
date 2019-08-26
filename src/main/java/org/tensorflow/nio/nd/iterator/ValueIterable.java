@@ -18,5 +18,6 @@ package org.tensorflow.nio.nd.iterator;
 
 public interface ValueIterable<T> extends Iterable<T> {
 
-    @Override ValueIterator<T> iterator();
+  @Override
+  ValueIterator<T> iterator();
 }

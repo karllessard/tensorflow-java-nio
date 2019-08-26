@@ -36,7 +36,7 @@ public abstract class ByteDataBufferTestBase extends DataBufferTestBase<Byte> {
   @Test
   public void writeAndReadFromArray() {
     ByteDataBuffer buffer = allocate(10L);
-    byte[] oneToFive = new byte[] { valueOf(1L), valueOf(2L), valueOf(3L), valueOf(4L), valueOf(5L) };
+    byte[] oneToFive = new byte[]{valueOf(1L), valueOf(2L), valueOf(3L), valueOf(4L), valueOf(5L)};
 
     buffer.put(oneToFive);
     assertEquals(valueOf(2L), buffer.get(1));
@@ -61,10 +61,10 @@ public abstract class ByteDataBufferTestBase extends DataBufferTestBase<Byte> {
 
     Arrays.fill(read, valueOf(0L));
     buffer.get(read, 1, 2);
-    assertEquals(valueOf(0L), (Byte)read[0]);
-    assertEquals(valueOf(3L), (Byte)read[1]);
-    assertEquals(valueOf(4L), (Byte)read[2]);
-    assertEquals(valueOf(0L), (Byte)read[3]);
+    assertEquals(valueOf(0L), (Byte) read[0]);
+    assertEquals(valueOf(3L), (Byte) read[1]);
+    assertEquals(valueOf(4L), (Byte) read[2]);
+    assertEquals(valueOf(0L), (Byte) read[3]);
     assertEquals(4L, buffer.position());
   }
 }

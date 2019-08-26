@@ -18,27 +18,30 @@ package org.tensorflow.nio.buffer.impl;
 
 import org.tensorflow.nio.buffer.ByteDataBuffer;
 
-public class ByteDataBufferWindow extends DataBufferWindow<Byte, ByteDataBuffer> implements ByteDataBuffer {
+public class ByteDataBufferWindow extends DataBufferWindow<Byte, ByteDataBuffer> implements
+    ByteDataBuffer {
 
-    public ByteDataBufferWindow(ByteDataBuffer delegate, long start, long end) {
-        super(delegate, start, end);
-    }
+  public ByteDataBufferWindow(ByteDataBuffer delegate, long start, long end) {
+    super(delegate, start, end);
+  }
 
-    @Override public ByteDataBuffer get(byte[] dst, int offset, int length) {
-        return delegate.get(dst, offset, length);
-    }
+  @Override
+  public ByteDataBuffer get(byte[] dst, int offset, int length) {
+    return delegate.get(dst, offset, length);
+  }
 
-    @Override public ByteDataBuffer put(byte[] src, int offset, int length) {
-        return delegate.put(src, offset, length);
-    }
+  @Override
+  public ByteDataBuffer put(byte[] src, int offset, int length) {
+    return delegate.put(src, offset, length);
+  }
 
-    @Override
-    public ByteDataBuffer duplicate() {
-        return new ByteDataBufferWindow(delegate.duplicate(), start, end);
-    }
+  @Override
+  public ByteDataBuffer duplicate() {
+    return new ByteDataBufferWindow(delegate.duplicate(), start, end);
+  }
 
-    @Override
-    public ByteDataBuffer slice() {
-        return new ByteDataBufferWindow(delegate.duplicate(), position(), limit());
-    }
+  @Override
+  public ByteDataBuffer slice() {
+    return new ByteDataBufferWindow(delegate.duplicate(), position(), limit());
+  }
 }

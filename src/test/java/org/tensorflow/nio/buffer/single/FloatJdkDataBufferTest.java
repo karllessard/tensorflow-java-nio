@@ -20,7 +20,7 @@ import org.tensorflow.nio.buffer.FloatDataBuffer;
 import org.tensorflow.nio.buffer.FloatDataBufferTestBase;
 
 public class FloatJdkDataBufferTest extends FloatDataBufferTestBase {
-  
+
   @Override
   protected long maxCapacity() {
     return FloatJdkDataBuffer.MAX_CAPACITY;

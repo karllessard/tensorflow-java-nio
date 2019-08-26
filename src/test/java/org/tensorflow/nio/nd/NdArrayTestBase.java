@@ -93,11 +93,11 @@ public abstract class NdArrayTestBase<T> {
     matrix3d.values().forEach(v -> assertEquals(zeroOrNull(), v));
 
     long val = 0L;
-    for (ValueIterator<T> iter = matrix3d.values().iterator(); iter.hasNext();) {
+    for (ValueIterator<T> iter = matrix3d.values().iterator(); iter.hasNext(); ) {
       iter.next(valueOf(val++));
     }
     val = 0L;
-    for (ValueIterator<T> iter = matrix3d.values().iterator(); iter.hasNext();) {
+    for (ValueIterator<T> iter = matrix3d.values().iterator(); iter.hasNext(); ) {
       assertEquals(valueOf(val++), iter.next());
     }
     assertEquals(valueOf(0L), matrix3d.get(0, 0, 0));
@@ -113,17 +113,17 @@ public abstract class NdArrayTestBase<T> {
     NdArray<T> matrix3d = allocate(shape(5, 4, 5));
 
     long val = 0;
-    for (NdArray<T> matrix: matrix3d.childElements()) {
+    for (NdArray<T> matrix : matrix3d.childElements()) {
       assertEquals(2L, matrix.shape().numDimensions());
       assertEquals(4L, matrix.shape().numElements(0));
       assertEquals(5L, matrix.shape().numElements(1));
 
-      for (NdArray<T> vector: matrix.childElements()) {
-        assertEquals(1L, vector.shape().numDimensions()) ;
+      for (NdArray<T> vector : matrix.childElements()) {
+        assertEquals(1L, vector.shape().numDimensions());
         assertEquals(5L, vector.shape().numElements(0));
 
-        for (NdArray<T> scalar: vector.childElements()) {
-          assertEquals(0L, scalar.shape().numDimensions()) ;
+        for (NdArray<T> scalar : vector.childElements()) {
+          assertEquals(0L, scalar.shape().numDimensions());
           scalar.set(valueOf(val++));
           try {
             scalar.childElements().iterator();
@@ -145,7 +145,7 @@ public abstract class NdArrayTestBase<T> {
   @Test
   public void slices() {
     NdArray<T> matrix3d = allocate(shape(5, 4, 5));
-    
+
     T val100 = valueOf(100L);
     matrix3d.set(val100, 1, 0, 0);
     T val101 = valueOf(101L);
@@ -218,7 +218,7 @@ public abstract class NdArrayTestBase<T> {
     assertEquals(val100, scalar100.get());
 
     // Slice scalar (1,0,z)
-    LongNdArray z = NdArrays.wrap(new long[] {2L}, shape());
+    LongNdArray z = NdArrays.wrap(new long[]{2L}, shape());
     NdArray<T> scalar102 = matrix3d.slice(at(1), at(0), at(z));
     assertEquals(scalar102.shape(), shape());
     assertEquals(val102, scalar102.get());
@@ -252,7 +252,7 @@ public abstract class NdArrayTestBase<T> {
   public void ndArrayCopies() {
     NdArray<T> matrixA = allocate(shape(3, 5));
     long val = 0L;
-    for (ValueIterator<T> iter = matrixA.values().iterator(); iter.hasNext();) {
+    for (ValueIterator<T> iter = matrixA.values().iterator(); iter.hasNext(); ) {
       iter.next(valueOf(val++));
     }
     NdArray<T> matrixB = allocate(shape(3, 5));
@@ -289,7 +289,7 @@ public abstract class NdArrayTestBase<T> {
   @Test
   @SuppressWarnings("unchecked")
   public void writeAndReadWithArrays() {
-    T[] values = (T[])LongStream.range(0L, 16L).boxed().map(this::valueOf).toArray();
+    T[] values = (T[]) LongStream.range(0L, 16L).boxed().map(this::valueOf).toArray();
 
     NdArray<T> matrix = allocate(shape(3, 4));
     matrix.write(values);
@@ -321,7 +321,7 @@ public abstract class NdArrayTestBase<T> {
     assertEquals(valueOf(15L), values[15]);
 
     try {
-      matrix.write((T[])LongStream.range(0L, 4L).boxed().map(this::valueOf).toArray());
+      matrix.write((T[]) LongStream.range(0L, 4L).boxed().map(this::valueOf).toArray());
       fail();
     } catch (BufferUnderflowException e) {
       // as expected
@@ -345,7 +345,7 @@ public abstract class NdArrayTestBase<T> {
       // as expected
     }
     try {
-      matrix.read((T[])LongStream.range(0L, 4L).boxed().map(this::valueOf).toArray());
+      matrix.read((T[]) LongStream.range(0L, 4L).boxed().map(this::valueOf).toArray());
       fail();
     } catch (BufferOverflowException e) {
       // as expected
