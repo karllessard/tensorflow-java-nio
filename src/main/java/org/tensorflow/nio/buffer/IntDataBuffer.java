@@ -21,8 +21,7 @@ import java.nio.BufferUnderflowException;
 import java.nio.ReadOnlyBufferException;
 import java.util.stream.IntStream;
 
-import org.tensorflow.nio.buffer.impl.ByteDataBufferWindow;
-import org.tensorflow.nio.buffer.impl.IntDataBufferWindow;
+import org.tensorflow.nio.buffer.impl.view.IntDataBufferView;
 
 /**
  * A {@link DataBuffer} of integers.
@@ -162,6 +161,6 @@ public interface IntDataBuffer extends DataBuffer<Integer> {
 
   @Override
   default IntDataBuffer slice() {
-    return new IntDataBufferWindow(duplicate(), position(), limit());
+    return new IntDataBufferView(duplicate(), position(), limit());
   }
 }

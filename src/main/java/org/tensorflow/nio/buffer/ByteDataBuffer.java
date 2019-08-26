@@ -20,8 +20,7 @@ import java.nio.BufferOverflowException;
 import java.nio.BufferUnderflowException;
 import java.nio.ReadOnlyBufferException;
 
-import org.tensorflow.nio.buffer.impl.ByteDataBufferWindow;
-import org.tensorflow.nio.buffer.impl.DataBufferWindow;
+import org.tensorflow.nio.buffer.impl.view.ByteDataBufferView;
 
 /**
  * A {@link DataBuffer} of bytes.
@@ -153,6 +152,6 @@ public interface ByteDataBuffer extends DataBuffer<Byte> {
 
   @Override
   default ByteDataBuffer slice() {
-    return new ByteDataBufferWindow(duplicate(), position(), limit());
+    return new ByteDataBufferView(duplicate(), position(), limit());
   }
 }

@@ -20,8 +20,7 @@ import java.nio.BufferOverflowException;
 import java.nio.BufferUnderflowException;
 import java.nio.ReadOnlyBufferException;
 
-import org.tensorflow.nio.buffer.impl.ByteDataBufferWindow;
-import org.tensorflow.nio.buffer.impl.FloatDataBufferWindow;
+import org.tensorflow.nio.buffer.impl.view.FloatDataBufferView;
 
 /**
  * A {@link DataBuffer} of floats.
@@ -153,6 +152,6 @@ public interface FloatDataBuffer extends DataBuffer<Float> {
 
   @Override
   default FloatDataBuffer slice() {
-    return new FloatDataBufferWindow(duplicate(), position(), limit());
+    return new FloatDataBufferView(duplicate(), position(), limit());
   }
 }

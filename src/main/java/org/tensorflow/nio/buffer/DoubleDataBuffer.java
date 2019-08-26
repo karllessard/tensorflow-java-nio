@@ -21,8 +21,7 @@ import java.nio.BufferUnderflowException;
 import java.nio.ReadOnlyBufferException;
 import java.util.stream.DoubleStream;
 
-import org.tensorflow.nio.buffer.impl.ByteDataBufferWindow;
-import org.tensorflow.nio.buffer.impl.DoubleDataBufferWindow;
+import org.tensorflow.nio.buffer.impl.view.DoubleDataBufferView;
 
 /**
  * A {@link DataBuffer} of doubles.
@@ -162,6 +161,6 @@ public interface DoubleDataBuffer extends DataBuffer<Double> {
 
   @Override
   default DoubleDataBuffer slice() {
-    return new DoubleDataBufferWindow(duplicate(), position(), limit());
+    return new DoubleDataBufferView(duplicate(), position(), limit());
   }
 }

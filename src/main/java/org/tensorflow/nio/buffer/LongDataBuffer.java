@@ -21,8 +21,7 @@ import java.nio.BufferUnderflowException;
 import java.nio.ReadOnlyBufferException;
 import java.util.stream.LongStream;
 
-import org.tensorflow.nio.buffer.impl.ByteDataBufferWindow;
-import org.tensorflow.nio.buffer.impl.LongDataBufferWindow;
+import org.tensorflow.nio.buffer.impl.view.LongDataBufferView;
 
 /**
  * A {@link DataBuffer} of longs.
@@ -162,6 +161,6 @@ public interface LongDataBuffer extends DataBuffer<Long> {
 
   @Override
   default LongDataBuffer slice() {
-    return new LongDataBufferWindow(duplicate(), position(), limit());
+    return new LongDataBufferView(duplicate(), position(), limit());
   }
 }
