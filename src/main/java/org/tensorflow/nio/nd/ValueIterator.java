@@ -14,35 +14,11 @@
  limitations under the License.
  =======================================================================
  */
-package org.tensorflow.nio.nd.iterator;
+package org.tensorflow.nio.nd;
 
-import org.tensorflow.nio.nd.NdArray;
+import java.util.Iterator;
 
-class VectorValueIterator<T> implements ValueIterator<T> {
+public interface ValueIterator<T> extends Iterator<T> {
 
-  @Override
-  public boolean hasNext() {
-    return currentIndex < array.size();
-  }
-
-  @Override
-  public T next() {
-    return array.get(currentIndex++);
-  }
-
-  public void next(T value) {
-    array.set(value, currentIndex++);
-  }
-
-  VectorValueIterator(NdArray<T> array) {
-    if (array.shape().numDimensions() != 1) {
-      throw new IllegalArgumentException();
-    }
-    this.array = array;
-    currentIndex = 0L;
-  }
-
-  private final NdArray<T> array;
-
-  private long currentIndex;
+  void next(T value);
 }

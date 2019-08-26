@@ -14,11 +14,34 @@
  limitations under the License.
  =======================================================================
  */
-package org.tensorflow.nio.nd.iterator;
+package org.tensorflow.nio.nd.impl.iterator;
 
 import java.util.Iterator;
 
-public interface ValueIterator<T> extends Iterator<T> {
+import org.tensorflow.nio.nd.IllegalRankException;
+import org.tensorflow.nio.nd.NdArray;
 
-  void next(T value);
+class ElementIterator<T> implements Iterator<NdArray<T>> {
+
+  @Override
+  public boolean hasNext() {
+    return currentIdx < array.shape().numElements(0);
+  }
+
+  @Override
+  public NdArray<T> next() {
+    return array.at(currentIdx++);
+  }
+
+  ElementIterator(NdArray<T> array) {
+    if (array.shape().numDimensions() == 0) {
+      throw new IllegalRankException("Cannot iterate a scalar");
+    }
+    this.array = array;
+    currentIdx = 0L;
+  }
+
+  private final NdArray<T> array;
+
+  private long currentIdx;
 }

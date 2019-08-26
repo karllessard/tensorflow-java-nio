@@ -18,8 +18,6 @@ package org.tensorflow.nio.nd;
 
 import org.tensorflow.nio.buffer.DataBuffer;
 import org.tensorflow.nio.nd.index.Index;
-import org.tensorflow.nio.nd.iterator.ValueIterable;
-import org.tensorflow.nio.nd.iterator.ValueIterator;
 
 /**
  * A data structure of N-dimensions.

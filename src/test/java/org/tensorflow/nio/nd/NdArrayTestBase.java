@@ -22,12 +22,10 @@ import static org.tensorflow.nio.StaticApi.*;
 
 import java.nio.BufferOverflowException;
 import java.nio.BufferUnderflowException;
-import java.util.Arrays;
 import java.util.stream.LongStream;
 
 import org.junit.Test;
 import org.tensorflow.nio.buffer.DataBuffer;
-import org.tensorflow.nio.nd.iterator.ValueIterator;
 
 public abstract class NdArrayTestBase<T> {
 

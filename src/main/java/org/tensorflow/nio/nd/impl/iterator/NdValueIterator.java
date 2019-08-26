@@ -14,11 +14,12 @@
  limitations under the License.
  =======================================================================
  */
-package org.tensorflow.nio.nd.iterator;
+package org.tensorflow.nio.nd.impl.iterator;
 
 import java.util.Iterator;
 
 import org.tensorflow.nio.nd.NdArray;
+import org.tensorflow.nio.nd.ValueIterator;
 
 class NdValueIterator<T> implements ValueIterator<T> {
 
