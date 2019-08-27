@@ -16,6 +16,14 @@
  */
 package org.tensorflow.nio.nd;
 
+/**
+ * An iteration of values stored in a {@link NdArray} instance.
+ *
+ * <p>This type a iterable returns a {@link ValueIterator} as its iterator, which allows
+ * read and/or write operations over a sequence of values.
+ *
+ * @param <T> type of value
+ */
 public interface ValueIterable<T> extends Iterable<T> {
 
   @Override

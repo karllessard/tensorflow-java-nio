@@ -94,7 +94,7 @@ public interface FloatNdArray extends NdArray<Float> {
   }
 
   @Override
-  FloatNdArray at(long... indices);
+  FloatNdArray at(long... coordinates);
 
   @Override
   FloatNdArray slice(Index... indices);
@@ -103,7 +103,7 @@ public interface FloatNdArray extends NdArray<Float> {
   Iterable<FloatNdArray> childElements();
 
   @Override
-  FloatNdArray set(Float value, long... indices);
+  FloatNdArray set(Float value, long... coordinates);
 
   @Override
   FloatNdArray copyTo(NdArray<Float> dst);

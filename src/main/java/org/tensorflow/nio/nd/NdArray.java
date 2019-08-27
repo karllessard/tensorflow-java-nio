@@ -52,14 +52,10 @@ import org.tensorflow.nio.nd.index.Index;
  */
 public interface NdArray<T> {
 
-  /**
-   * @return the shape of this N-dimensional array
-   */
+  /** Returns the shape of this N-dimensional array */
   Shape shape();
 
-  /**
-   * @return the rank of this N-dimensional array
-   */
+  /** Returns the rank of this N-dimensional array */
   default int rank() {
     return shape().numDimensions();
   }
@@ -139,12 +135,12 @@ public interface NdArray<T> {
    * on single element for each indexed dimension, i.e. {@code array.at(x, y, z) ==
    * array.slice(at(x), at(y), at(z))}
    *
-   * @param indices coordinates of the element to access, none will return this array
+   * @param coordinates coordinates of the element to access, none will return this array
    * @return the element at this index
    * @throws IndexOutOfBoundsException if some indices are outside the limits of their respective
    * dimension
    */
-  NdArray<T> at(long... indices);
+  NdArray<T> at(long... coordinates);
 
   /**
    * Creates a multi-dimensional view (or slice) of this array by mapping one or more dimensions to
@@ -200,13 +196,13 @@ public interface NdArray<T> {
    *  scalar.get();  // succeeds, returns 0.0f
    * }</pre>
    *
-   * @param indices coordinates of the scalar to resolve
+   * @param coordinates coordinates of the scalar to resolve
    * @return value of that scalar
    * @throws IndexOutOfBoundsException if some indices are outside the limits of their respective
    * dimension
    * @throws IllegalRankException if number of indices is not sufficient to access a scalar element
    */
-  T get(long... indices);
+  T get(long... coordinates);
 
   /**
    * Assigns the value of the scalar found at the given coordinates.
@@ -222,13 +218,13 @@ public interface NdArray<T> {
    *  scalar.set(10.0f);  // succeeds
    * }</pre>
    *
-   * @param indices coordinates of the scalar to assign
+   * @param coordinates coordinates of the scalar to assign
    * @return this array
    * @throws IndexOutOfBoundsException if some indices are outside the limits of their respective
    * dimension
    * @throws IllegalRankException if number of indices is not sufficient to access a scalar element
    */
-  NdArray<T> set(T value, long... indices);
+  NdArray<T> set(T value, long... coordinates);
 
   /**
    * Copy the content of this array to the destination array.

@@ -18,7 +18,26 @@ package org.tensorflow.nio.nd;
 
 import java.util.Iterator;
 
+/**
+ * An iterator that allows read and/or write operations over a sequence of values.
+ *
+ * @param <T> type of value
+ */
 public interface ValueIterator<T> extends Iterator<T> {
 
+  /**
+   * Sets the value at the next position of this iterator and increment it.
+   *
+   * <p>This additional method to the {@link Iterator} interface allows initializing the values
+   * in a sequence. For example:
+   * <pre>{@code
+   * long value = 0L;
+   * for (ValueIterator<Long> iter = array.values().iterator(); iter.hasNext();) {
+   *     iter.next(value++);
+   * }
+   * }</pre>
+   *
+   * @param value value to set
+   */
   void next(T value);
 }

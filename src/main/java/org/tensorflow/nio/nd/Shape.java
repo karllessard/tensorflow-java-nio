@@ -69,6 +69,16 @@ public final class Shape {
     return new Shape(dimensions);
   }
 
+  /**
+   * Returns a new shape that reflects the transformations applied by a list of indices.
+   *
+   * <p>Indices are mapped to their respective dimension, i.e. indices<sub>i</sub> is applied
+   * to dimensions<sub>i</sub>. The number of indices must be equal or smaller than the number
+   * of dimensions found in the shape.
+   *
+   * @param indices indices to apply the dimensions of the shape
+   * @return a new shape
+   */
   public Shape mapTo(Index[] indices) {
     if (indices.length > dimensions.length) {
       throw new ArrayIndexOutOfBoundsException();
@@ -90,26 +100,56 @@ public final class Shape {
     return dimensions.length;
   }
 
+  /**
+   * The number of elements found in the {@code i}th dimension of this shape.
+   *
+   * @param i index of the dimension
+   * @return number of elements in that dimension
+   */
   public long numElements(int i) {
     return dimensions[i].numElements();
   }
 
+  /**
+   * The {@code i}th dimension of this shape.
+   *
+   * @param i index of the dimension
+   * @return the dimension
+   */
   public Dimension dimension(int i) {
     return dimensions[i];
   }
 
+  /**
+   * Returns true if this shape has one or more dimensions of unknown size.
+   */
   public boolean hasUnknownDimension() {
     return Arrays.stream(dimensions).anyMatch(d -> d.numElements() == UNKNOWN_SIZE);
   }
 
+  /**
+   * The size of this shape, which is the total number of elements.
+   */
   public long size() {
     return size;
   }
 
-  public Shape subshape(int dimensionStart) {
-    return new Shape(Arrays.copyOfRange(dimensions, dimensionStart, dimensions.length));
+  /**
+   * Returns a shape with the {i}th dimension of this shape as its first dimension.
+   *
+   * @param i index of the first dimension of the subshape
+   * @return a new shape
+   */
+  public Shape subshape(int i) {
+    return new Shape(Arrays.copyOfRange(dimensions, i, dimensions.length));
   }
 
+  /**
+   * Returns this shape as an array, where the value at index {@code i} represents the number of
+   * elements found in the {@code i}th dimension of this shape (i.e. the dimension size).
+   *
+   * @return an array of dimension sizes
+   */
   public long[] toArray() {
     return Arrays.stream(dimensions).mapToLong(Dimension::numElements).toArray();
   }

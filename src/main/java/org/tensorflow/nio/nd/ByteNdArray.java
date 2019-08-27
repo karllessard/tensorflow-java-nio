@@ -94,7 +94,7 @@ public interface ByteNdArray extends NdArray<Byte> {
   }
 
   @Override
-  ByteNdArray at(long... indices);
+  ByteNdArray at(long... coordinates);
 
   @Override
   ByteNdArray slice(Index... indices);
@@ -103,7 +103,7 @@ public interface ByteNdArray extends NdArray<Byte> {
   Iterable<ByteNdArray> childElements();
 
   @Override
-  ByteNdArray set(Byte value, long... indices);
+  ByteNdArray set(Byte value, long... coordinates);
 
   @Override
   ByteNdArray copyTo(NdArray<Byte> dst);

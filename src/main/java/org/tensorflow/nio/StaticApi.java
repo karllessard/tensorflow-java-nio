@@ -161,7 +161,7 @@ public interface StaticApi {
   }
 
   static Index elem(NdArray<? extends Number> indices) {
-    return Indices.elem(indices);
+    return Indices.seq(indices);
   }
 
   static Index even() {

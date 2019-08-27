@@ -94,7 +94,7 @@ public interface IntNdArray extends NdArray<Integer> {
   }
 
   @Override
-  IntNdArray at(long... indices);
+  IntNdArray at(long... coordinates);
 
   @Override
   IntNdArray slice(Index... indices);
@@ -103,7 +103,7 @@ public interface IntNdArray extends NdArray<Integer> {
   Iterable<IntNdArray> childElements();
 
   @Override
-  IntNdArray set(Integer value, long... indices);
+  IntNdArray set(Integer value, long... coordinates);
 
   @Override
   IntNdArray copyTo(NdArray<Integer> dst);

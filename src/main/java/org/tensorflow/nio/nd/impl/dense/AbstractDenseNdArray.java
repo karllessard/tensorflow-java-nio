@@ -30,9 +30,9 @@ import org.tensorflow.nio.nd.index.Index;
 public abstract class AbstractDenseNdArray<T, U extends NdArray<T>> extends AbstractNdArray<T, U> {
 
   @Override
-  public U at(long... indices) {
-    Shape sliceShape = shape().subshape(indices.length);
-    long slicePosition = position(indices, false);
+  public U at(long... coordinates) {
+    Shape sliceShape = shape().subshape(coordinates.length);
+    long slicePosition = position(coordinates, false);
     return allocateSlice(slicePosition, sliceShape);
   }
 
@@ -51,13 +51,13 @@ public abstract class AbstractDenseNdArray<T, U extends NdArray<T>> extends Abst
   }
 
   @Override
-  public T get(long... indices) {
-    return buffer().get(position(indices, true));
+  public T get(long... coordinates) {
+    return buffer().get(position(coordinates, true));
   }
 
   @Override
-  public U set(T value, long... indices) {
-    buffer().put(position(indices, true), value);
+  public U set(T value, long... coordinates) {
+    buffer().put(position(coordinates, true), value);
     return (U) this;
   }
 

@@ -17,7 +17,6 @@
 package org.tensorflow.nio.nd.index;
 
 import org.tensorflow.nio.nd.impl.dimension.Dimension;
-import org.tensorflow.nio.nd.impl.dimension.Dimensions;
 
 /**
  * An index that returns only elements found at an even position in the original dimension.

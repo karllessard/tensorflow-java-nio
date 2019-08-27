@@ -94,7 +94,7 @@ public interface DoubleNdArray extends NdArray<Double> {
   }
 
   @Override
-  DoubleNdArray at(long... indices);
+  DoubleNdArray at(long... coordinates);
 
   @Override
   DoubleNdArray slice(Index... indices);
@@ -103,7 +103,7 @@ public interface DoubleNdArray extends NdArray<Double> {
   Iterable<DoubleNdArray> childElements();
 
   @Override
-  DoubleNdArray set(Double value, long... indices);
+  DoubleNdArray set(Double value, long... coordinates);
 
   @Override
   DoubleNdArray copyTo(NdArray<Double> dst);
