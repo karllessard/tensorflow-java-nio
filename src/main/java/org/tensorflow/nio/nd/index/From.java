@@ -36,6 +36,14 @@ class From implements Index {
     return start + coordinate;
   }
 
+  @Override
+  public Dimension apply(Dimension dim) {
+    if (start >= dim.numElements()) {
+      throw new IndexOutOfBoundsException("Start coordinate exceeds the number of elements");
+    }
+    return start == 0 ? dim : Index.super.apply(dim);
+  }
+
   From(long start) {
     this.start = start;
   }

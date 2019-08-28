@@ -455,19 +455,6 @@ public interface StaticApi {
   }
 
   /**
-   * An index that skips a fixed amount of coordinates between each values returned.
-   *
-   * <p>For example, given a vector with {@code n} elements on the {@code x} axis,
-   * {@code step(k)} returns x<sub>0</sub>, x<sub>k</sub>, x<sub>k*2</sub>, ...
-   *
-   * @param stepLength number of elements to skip between each values
-   * @return an index
-   */
-  static Index step(long stepLength) {
-    return Indices.step(stepLength);
-  }
-
-  /**
    * An index that returns only elements on a given dimension starting at a specific coordinate.
    *
    * <p>For example, given a vector with {@code n} elements on the {@code x} axis, and

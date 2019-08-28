@@ -64,13 +64,15 @@ public abstract class AbstractDenseNdArray<T, U extends NdArray<T>> extends Abst
   @Override
   public U copyTo(NdArray<T> dst) {
     // TODO Optimize when array is continuous in memory
-    return super.copyTo(dst);
+    slowCopy(this, dst);
+    return (U) this;
   }
 
   @Override
   public U copyFrom(NdArray<T> src) {
     // TODO Optimize when array is continuous in memory
-    return super.copyFrom(src);
+    slowCopy(src, this);
+    return (U) this;
   }
 
   @Override
@@ -79,7 +81,7 @@ public abstract class AbstractDenseNdArray<T, U extends NdArray<T>> extends Abst
       throw new BufferOverflowException();
     }
     if (isBulkCopyAvailable()) {
-      BulkDataTransfer.create(this).execute((buffer, size) -> dst.put(buffer.limit(size)));
+      BulkDataTransfer.execute(this, (buffer, size) -> dst.put(buffer.limit(size)));
     } else {
       slowRead(dst);
     }
@@ -92,8 +94,8 @@ public abstract class AbstractDenseNdArray<T, U extends NdArray<T>> extends Abst
       throw new BufferUnderflowException();
     }
     if (isBulkCopyAvailable()) {
-      BulkDataTransfer.create(this)
-          .execute((buffer, size) -> buffer.put(src.limit(src.position() + size)));
+      BulkDataTransfer
+          .execute(this, (buffer, size) -> buffer.put(src.limit(src.position() + size)));
     } else {
       slowWrite(src);
     }

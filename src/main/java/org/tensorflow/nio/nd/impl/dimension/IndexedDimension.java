@@ -35,8 +35,7 @@ final class IndexedDimension extends AbstractDimension {
 
   @Override
   public boolean isSegmented() {
-    // TODO for now we consider all indexed dimensions as segmented but might depend on the actual index
-    return true;
+    return true;  // All indexed dimensions are considered to be segmented.
   }
 
   @Override

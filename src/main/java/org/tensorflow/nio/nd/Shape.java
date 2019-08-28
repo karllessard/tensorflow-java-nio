@@ -24,7 +24,7 @@ import org.tensorflow.nio.nd.impl.dimension.Dimensions;
 import org.tensorflow.nio.nd.index.Index;
 
 /**
- * The possibly partially known shape of a tensor produced by an operation.
+ * The shape of an N-dimensional data structure, normally represented by an {@link NdArray}
  */
 public final class Shape {
 

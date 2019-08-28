@@ -36,6 +36,14 @@ class Range implements Index {
     return start + coordinate;
   }
 
+  @Override
+  public Dimension apply(Dimension dim) {
+    if (end > dim.numElements()) {
+      throw new IndexOutOfBoundsException("End coordinate exceeds the number of elements");
+    }
+    return start == 0 && end == dim.numElements() ? dim : Index.super.apply(dim);
+  }
+
   Range(long start, long end) {
     this.start = start;
     this.end = end;

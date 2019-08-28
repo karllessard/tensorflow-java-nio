@@ -36,6 +36,14 @@ class To implements Index {
     return coordinate;
   }
 
+  @Override
+  public Dimension apply(Dimension dim) {
+    if (end > dim.numElements()) {
+      throw new IndexOutOfBoundsException("End coordinate exceeds the number of elements");
+    }
+    return end == dim.numElements() ? dim : Index.super.apply(dim);
+  }
+
   To(long end) {
     this.end = end;
   }

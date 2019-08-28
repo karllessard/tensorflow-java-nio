@@ -133,19 +133,6 @@ public final class Indices {
   }
 
   /**
-   * An index that skips a fixed amount of coordinates between each values returned.
-   *
-   * <p>For example, given a vector with {@code n} elements on the {@code x} axis,
-   * {@code step(k)} returns x<sub>0</sub>, x<sub>k</sub>, x<sub>k*2</sub>, ...
-   *
-   * @param stepLength number of elements to skip between each values
-   * @return an index
-   */
-  public static Index step(long stepLength) {
-    return new Step(stepLength);
-  }
-
-  /**
    * An index that returns only elements on a given dimension starting at a specific coordinate.
    *
    * <p>For example, given a vector with {@code n} elements on the {@code x} axis, and
@@ -153,8 +140,12 @@ public final class Indices {
    *
    * @param start coordinate of the first element referenced by this index
    * @return an index
+   * @throws IllegalArgumentException if start is negative
    */
   public static Index from(long start) {
+    if (start < 0) {
+      throw new IllegalArgumentException("Start coordinate cannot be negative");
+    }
     return new From(start);
   }
 
@@ -166,8 +157,12 @@ public final class Indices {
    *
    * @param end coordinate of the last element referenced by this index
    * @return an index
+   * @throws IllegalArgumentException if end is negative
    */
   public static Index to(long end) {
+    if (end < 0) {
+      throw new IllegalArgumentException("End coordinate cannot be negative");
+    }
     return new To(end);
   }
 
@@ -181,8 +176,18 @@ public final class Indices {
    * @param start coordinate of the first element referenced by this index
    * @param end coordinate of the last element referenced by this index
    * @return an index
+   * @throws IllegalArgumentException if start or end is negative, or if start is greated than end
    */
   public static Index range(long start, long end) {
+    if (start < 0) {
+      throw new IllegalArgumentException("Start coordinate cannot be negative");
+    }
+    if (end < 0) {
+      throw new IllegalArgumentException("End coordinate cannot be negative");
+    }
+    if (start > end) {
+      throw new IllegalArgumentException("Start coordinate cannot be greater than end coordinate");
+    }
     return new Range(start, end);
   }
 

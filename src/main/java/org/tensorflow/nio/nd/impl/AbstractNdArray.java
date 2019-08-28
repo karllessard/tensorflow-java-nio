@@ -48,30 +48,6 @@ public abstract class AbstractNdArray<T, U extends NdArray<T>> implements NdArra
   }
 
   @Override
-  public U copyTo(NdArray<T> array) {
-    if (!shape().equals(array.shape())) {
-      throw new IllegalArgumentException("Can only copy to arrays of the same shape");
-    }
-    for (ValueIterator<T> srcIter = values().iterator(), dstIter = array.values().iterator();
-        srcIter.hasNext(); ) {
-      dstIter.next(srcIter.next());
-    }
-    return (U) this;
-  }
-
-  @Override
-  public U copyFrom(NdArray<T> array) {
-    if (!shape().equals(array.shape())) {
-      throw new IllegalArgumentException("Can only copy to arrays of the same shape");
-    }
-    for (ValueIterator<T> srcIter = array.values().iterator(), dstIter = values().iterator();
-        srcIter.hasNext(); ) {
-      dstIter.next(srcIter.next());
-    }
-    return (U) this;
-  }
-
-  @Override
   public U read(T[] dst) {
     return (U) read(DataBuffers.wrap(dst, false));
   }
@@ -102,6 +78,16 @@ public abstract class AbstractNdArray<T, U extends NdArray<T>> implements NdArra
   protected void slowWrite(DataBuffer<T> buffer) {
     for (ValueIterator<T> dstIter = values().iterator(); dstIter.hasNext(); ) {
       dstIter.next(buffer.get());
+    }
+  }
+
+  protected static <T> void slowCopy(NdArray<T> src, NdArray<T> dst) {
+    if (!src.shape().equals(dst.shape())) {
+      throw new IllegalArgumentException("Can only copy to arrays of the same shape");
+    }
+    for (ValueIterator<T> srcIter = src.values().iterator(), dstIter = dst.values().iterator();
+        srcIter.hasNext(); ) {
+      dstIter.next(srcIter.next());
     }
   }
 

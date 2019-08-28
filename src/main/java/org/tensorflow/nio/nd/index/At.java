@@ -38,7 +38,10 @@ class At implements Index {
 
   @Override
   public long mapCoordinate(long coordinate, Dimension dim) {
-    return value;  // TODO Validate that coordinate is 0?
+    if (coordinate != 0) {
+      throw new IllegalArgumentException("`at` indices only has one coordinate, which is 0");
+    }
+    return value;
   }
 
   @Override

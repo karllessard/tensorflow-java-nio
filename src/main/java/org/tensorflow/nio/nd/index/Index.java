@@ -48,7 +48,7 @@ public interface Index {
    * dimension, then the returned value will be {@code n-1}.
    *
    * @param coordinate coordinate to transform
-   * @param dim dimension the indexed dimension
+   * @param dim the indexed dimension
    * @return transformed coordinate
    */
   long mapCoordinate(long coordinate, Dimension dim);
@@ -58,6 +58,10 @@ public interface Index {
    *
    * <p>When accessing the elements from the returned dimension, this index will automatically
    * apply and may transform the original position.
+   *
+   * <p>For better performances, if the index references once all elements of the dimension,
+   * preserving their original sequence, then this method should return the {@code dim} argument
+   * directly.
    *
    * @param dim dimension to apply this index to
    * @return an indexed dimension
